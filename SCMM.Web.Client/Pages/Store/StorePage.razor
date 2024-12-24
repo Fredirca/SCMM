@@ -496,7 +496,7 @@ else if (StoreList.Any())
                                                                    FullWidth Disabled="State.IsPrerendering" title="Click to view this item on the Steam workshop">     
                                                             <strong>Workshop</strong>
                                                         </MudButton>
-                                                        @if (!String.IsNullOrEmpty(item.WorkshopFileUrl))
+                                                        @if (item.WorkshopFileId != null)
                                                         {
                                                             <MudButton OnClick="@(() => ViewItemInteractiveModel(item))" Variant="MudBlazor.Variant.Filled" Color="MudBlazor.Color.Secondary" StartIcon="fas fa-fw fa-arrows-rotate" Size="@Size.Small"
                                                                        Class="ml-2" Disabled="State.IsPrerendering" title="Click to view an interactive 3D render of this item on RustHelp.com">     
