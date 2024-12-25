@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using System.Net;
 using System.Text.Json;
 
 namespace SCMM.Market.CSDeals.Client
@@ -8,7 +9,7 @@ namespace SCMM.Market.CSDeals.Client
         private const string WebsiteBaseUri = "https://cs.deals/";
         private const string ApiBaseUri = "https://cs.deals/API/";
 
-        public CSDealsWebClient(ILogger<CSDealsWebClient> logger) : base(logger) { }
+        public CSDealsWebClient(ILogger<CSDealsWebClient> logger, IWebProxy webProxy) : base(logger, webProxy: webProxy) { }
 
         public async Task<IEnumerable<CSDealsItemPrice>> GetPricingGetLowestPricesAsync(string appId)
         {
@@ -31,7 +32,7 @@ namespace SCMM.Market.CSDeals.Client
 
         public async Task<CSDealsMarketplaceSearchResults<CSDealsItemListings>> PostMarketplaceSearchAsync(string appId, string appName, int page = 0)
         {
-            using (var client = BuildWebBrowserHttpClient(referrer: new Uri($"{WebsiteBaseUri}/market/{appName?.ToLower()}")))
+            using (var client = BuildWebBrowserHttpClient(referrer: new Uri($"{WebsiteBaseUri}/new")))
             {
                 var url = $"{WebsiteBaseUri}ajax/marketplace-search";
                 var payload = new FormUrlEncodedContent(new Dictionary<string, string>() {
