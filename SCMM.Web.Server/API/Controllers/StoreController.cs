@@ -166,7 +166,26 @@ namespace SCMM.Web.Server.API.Controllers
             var itemStoreDetail = _mapper.Map<SteamItemStore, StoreDetailsDTO>(itemStore, this);
             if (itemStoreDetail == null)
             {
-                return NotFound();
+                // No stores configured for this app, just show all available store items
+                var allAvailableStoreItems = _mapper.Map<SteamStoreItem, StoreItemDetailsDTO>(
+                    await _db.SteamStoreItems
+                        .AsNoTracking()
+                        .Where(x => x.AppId == app.Guid)
+                        .Where(x => x.IsAvailable)
+                        .Include(x => x.App)
+                        .Include(x => x.Description)
+                        .Include(x => x.Description.CreatorProfile)
+                        .Include(x => x.Description.MarketItem)
+                        .Include(x => x.Description.MarketItem.Currency)
+                        .ToListAsync(), this);
+                if (!allAvailableStoreItems.Any())
+                {
+                    return NotFound();
+                }
+                itemStoreDetail = new StoreDetailsDTO()
+                {
+                    Items = allAvailableStoreItems.ToArray()
+                };
             }
 
             // Calculate market price ranks

@@ -26,35 +26,38 @@
         <Alert Exception="@StoreException" />
     }
 }
-else if (StoreList.Any())
+else if (StoreList.Any() || Store != null)
 {
-    <MudTabs Elevation="0" Position="MudBlazor.Position.Bottom" ActivePanelIndex="StoreIndex" ActivePanelIndexChanged="OnSelectedStoreChanged" KeepPanelsAlive="false" Class="mud-tabs-transparent">
-        <ChildContent>
-		    @foreach (var store in StoreList)
-            {
-                <MudTabPanel ID="@store.Id" Tag="@store" Text="@GetStoreTitle(store)" Disabled="State.IsPrerendering" />
-            }
-	    </ChildContent>
-	    <TabPanelHeader>
-            @if ((context.Tag as StoreIdentifierDTO).Start != null)
-            {
-                if (!String.IsNullOrEmpty((context.Tag as StoreIdentifierDTO).Name))
+    if (StoreList.Any())
+    {
+        <MudTabs Elevation="0" Position="MudBlazor.Position.Bottom" ActivePanelIndex="StoreIndex" ActivePanelIndexChanged="OnSelectedStoreChanged" KeepPanelsAlive="false" Class="mud-tabs-transparent mb-0">
+            <ChildContent>
+                @foreach (var store in StoreList)
                 {
-                    <MudText Typo="MudBlazor.Typo.body2" Color="MudBlazor.Color.Secondary" Class="pl-2">@((context.Tag as StoreIdentifierDTO).Name)</MudText>
+                    <MudTabPanel ID="@store.Id" Tag="@store" Text="@GetStoreTitle(store)" Disabled="State.IsPrerendering" />
                 }
-            }
-            else
-            {
-                <MudText Typo="MudBlazor.Typo.body2" Color="MudBlazor.Color.Secondary" Class="pl-2"><i class="fas fa-thumbtack"></i></MudText>
-            }
-        </TabPanelHeader>
-	    <Header>
-            <MudIconButton Size="MudBlazor.Size.Small" Icon="fa fa-fw fa-history" OnClick="@(() => ShowStoreListDialog(StoreList))" Class="pa-2 pr-4" />
-	    </Header>
-    </MudTabs>
-    <PageContainer Title="@($"{State?.App?.Name} Store - {(Store?.Start?.ToString("d") ?? Store?.Name ?? "Store")}")" Class="mb-6 ml-6 mr-6"
-                   Description="@(Store != null ? $"Store contains {Store.Items.Length} item(s) with a total cost of {State.Currency?.ToPriceString(Store.Items.Sum(x => x.StorePrice ?? 0))}." : null)"
-                   ImageUrl="@Store?.ItemsThumbnailUrl">
+            </ChildContent>
+            <TabPanelHeader>
+                @if ((context.Tag as StoreIdentifierDTO).Start != null)
+                {
+                    if (!String.IsNullOrEmpty((context.Tag as StoreIdentifierDTO).Name))
+                    {
+                        <MudText Typo="MudBlazor.Typo.body2" Color="MudBlazor.Color.Secondary" Class="pl-2">@((context.Tag as StoreIdentifierDTO).Name)</MudText>
+                    }
+                }
+                else
+                {
+                    <MudText Typo="MudBlazor.Typo.body2" Color="MudBlazor.Color.Secondary" Class="pl-2"><i class="fas fa-thumbtack"></i></MudText>
+                }
+            </TabPanelHeader>
+            <Header>
+                <MudIconButton Size="MudBlazor.Size.Small" Icon="fa fa-fw fa-history" OnClick="@(() => ShowStoreListDialog(StoreList))" Class="pa-2 pr-4" />
+            </Header>
+        </MudTabs>
+    }
+    <PageContainer Title="@($"{State?.App?.Name} Store - {(Store?.Start?.ToString("d") ?? Store?.Name ?? "Store")}")" Class="ma-6"
+    Description="@(Store != null ? $"Store contains {Store.Items.Length} item(s) with a total cost of {State.Currency?.ToPriceString(Store.Items.Sum(x => x.StorePrice ?? 0))}." : null)"
+    ImageUrl="@Store?.ItemsThumbnailUrl">
         <MudGrid Spacing="2">
             @if (Store == null)
             {
@@ -232,25 +235,28 @@ else if (StoreList.Any())
                                                     <span>This item is not from the @State.App.Name workshop, detailed statistics are not available.</span>
                                                 </MudText>
                                             }
-                                            @if (item.SupplyTotalEstimated > 0)
+                                            else
                                             {
-                                                <MudText Typo="MudBlazor.Typo.body2" Color="MudBlazor.Color.Default" Class="no-wrap" GutterBottom>
-                                                    <i class="fas fa-fw fa-shopping-cart mud-secondary-text"></i>
-                                                    <span>
-                                                        <MudLink @onclick="@(() => ShowItemEstimatedSupplyDialog(item))" Typo="MudBlazor.Typo.body2" Color="MudBlazor.Color.Default" Disabled="State.IsPrerendering">@item.SupplyTotalEstimated.Value.ToQuantityString() minimum sales</MudLink>
-                                                        <span class="mud-secondary-text"> from the store</span>
-                                                    </span>
-                                                </MudText>
-                                            }
-                                            @if (item.Subscriptions > 0)
-                                            {
-                                                <MudText Typo="MudBlazor.Typo.body2" Color="MudBlazor.Color.Default" Class="no-wrap" GutterBottom>
-                                                    <i class="fas fa-fw fa-user mud-secondary-text"></i>
-                                                    <span>
-                                                        <MudLink @onclick="@(() => ShowItemEstimatedSupplyDialog(item))" Typo="MudBlazor.Typo.body2" Color="MudBlazor.Color.Default" Disabled="State.IsPrerendering">@item.Subscriptions.Value.ToQuantityString() subscribers</MudLink>  
-                                                        <span class="mud-secondary-text"> from the workshop</span>
-                                                    </span>
-                                                </MudText>
+                                                @if (item.SupplyTotalEstimated > 0)
+                                                {
+                                                    <MudText Typo="MudBlazor.Typo.body2" Color="MudBlazor.Color.Default" Class="no-wrap" GutterBottom>
+                                                        <i class="fas fa-fw fa-shopping-cart mud-secondary-text"></i>
+                                                        <span>
+                                                            <MudLink @onclick="@(() => ShowItemEstimatedSupplyDialog(item))" Typo="MudBlazor.Typo.body2" Color="MudBlazor.Color.Default" Disabled="State.IsPrerendering">@item.SupplyTotalEstimated.Value.ToQuantityString() minimum sales</MudLink>
+                                                            <span class="mud-secondary-text"> from the store</span>
+                                                        </span>
+                                                    </MudText>
+                                                }
+                                                @if (item.Subscriptions > 0)
+                                                {
+                                                    <MudText Typo="MudBlazor.Typo.body2" Color="MudBlazor.Color.Default" Class="no-wrap" GutterBottom>
+                                                        <i class="fas fa-fw fa-user mud-secondary-text"></i>
+                                                        <span>
+                                                            <MudLink @onclick="@(() => ShowItemEstimatedSupplyDialog(item))" Typo="MudBlazor.Typo.body2" Color="MudBlazor.Color.Default" Disabled="State.IsPrerendering">@item.Subscriptions.Value.ToQuantityString() subscribers</MudLink>  
+                                                            <span class="mud-secondary-text"> from the workshop</span>
+                                                        </span>
+                                                    </MudText>
+                                                }
                                             }
                                             @if (item.IsMarketable && !item.IsBanned && !item.IsStillAvailableFromStore)
                                             {
@@ -508,20 +514,23 @@ else if (StoreList.Any())
                                                 @if (item.IsStillAvailableFromStore)
                                                 {
                                                     <div class="d-flex flex-row full-width mb-2">
-                                                        <MudButton OnClick="@(() => ViewItemStorePage(item))" Variant="MudBlazor.Variant.Filled" Color="MudBlazor.Color.Primary" Size="@Size.Medium" FullWidth 
-                                                                   Disabled="State.IsPrerendering" title="Click to view this item on the Steam item store">
-                                                            @if (State.AppId > 0)
-                                                            {
-                                                                <img src="/images/app/@(@State.AppId.ToString())/icon.svg" class="store-button-icon" />    
-                                                            }
-                                                            else
-                                                            {
-                                                                <i class="fab fa-fw fa-steam" />
-                                                            }
-                                                            <strong class="ml-2 store-button-label">Store</strong>
-                                                        </MudButton>
+                                                        @if (State.App.FeatureFlags.HasFlag(SteamAppFeatureFlags.ItemStoreWebBrowser))
+                                                        {
+                                                            <MudButton OnClick="@(() => ViewItemStorePage(item))" Variant="MudBlazor.Variant.Filled" Color="MudBlazor.Color.Primary" Size="@Size.Medium" 
+                                                                       Class="mr-2 flex-grow-1" Disabled="State.IsPrerendering" title="Click to view this item on the Steam item store">
+                                                                @if (State.AppId > 0)
+                                                                {
+                                                                    <img src="/images/app/@(@State.AppId.ToString())/icon.svg" class="store-button-icon" />
+                                                                }
+                                                                else
+                                                                {
+                                                                    <i class="fab fa-fw fa-steam" />
+                                                                }
+                                                                <strong class="ml-2 store-button-label">Store</strong>
+                                                            </MudButton>
+                                                        }
                                                         <MudButton OnClick="@(() => BuyItemFromStore(item))" Variant="MudBlazor.Variant.Filled" Color="MudBlazor.Color.Primary" StartIcon="fas fa-fw fa-cart-shopping" Size="@Size.Small"
-                                                                   Class="ml-2" Disabled="State.IsPrerendering" title="Click to buy this item from the Steam item store">
+                                                                   Class="@(State.App.FeatureFlags.HasFlag(SteamAppFeatureFlags.ItemStoreWebBrowser) ? "flex-shrink-1" : "flex-grow-1")" Disabled="State.IsPrerendering" title="Click to buy this item from the Steam item store">
                                                             <span>Buy</span>
                                                         </MudButton>
                                                     </div>
@@ -546,18 +555,21 @@ else if (StoreList.Any())
                     </MudItem>   
                 }
 
-                @foreach (var media in Store.Media)
+                if (Store.Media?.Any() == true)
                 {
-                    <MudItem xs="12" sm="6" lg="3">
-                        @if (Int64.TryParse(media, out _))
-                        {
-                            <TwitchVideo VideoId="@media" />
-                        }
-                        else
-                        {
-                            <YouTubeVideo VideoId="@media" />
-                        }
-                    </MudItem>
+                    @foreach (var media in Store.Media)
+                    {
+                        <MudItem xs="12" sm="6" lg="3">
+                            @if (Int64.TryParse(media, out _))
+                            {
+                                <TwitchVideo VideoId="@media" />
+                            }
+                            else
+                            {
+                                <YouTubeVideo VideoId="@media" />
+                            }
+                        </MudItem>
+                    }
                 }
 
             }
@@ -624,7 +636,7 @@ else
         }
 
         // If the store id has changed, reload the store details
-        if (!String.Equals(StoreId, Store?.Id.ToString(), StringComparison.InvariantCultureIgnoreCase))
+        if (!String.Equals(StoreId, Store?.Id?.ToString() ?? String.Empty, StringComparison.InvariantCultureIgnoreCase))
         {
             await LoadStore();
         }
@@ -720,7 +732,7 @@ else
         {
             ["Item"] = item,
         });
-        
+
         var numberToBuy = await dialog.GetReturnValueAsync<int?>();
         if (numberToBuy > 0)
         {
