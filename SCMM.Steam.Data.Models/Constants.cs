@@ -94,6 +94,12 @@
 
         #endregion
 
+        #region s&box
+
+        public const ulong SboxAppId = 590830L;
+
+        #endregion
+
         #region SCMM
 
         public const string SCMMStoreIdDateFormat = "yyyy-MM-dd-HHmm";
