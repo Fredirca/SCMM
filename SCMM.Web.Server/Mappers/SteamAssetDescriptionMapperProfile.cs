@@ -18,7 +18,7 @@ namespace SCMM.Web.Server.Mappers
                 .ForMember(x => x.Id, o => o.MapFrom(p => p.ClassId))
                 .ForMember(x => x.AppId, o => o.MapFrom(p => p.App.SteamId))
                 .ForMember(x => x.CreatorId, o => o.MapFrom(p => p.CreatorProfile != null ? p.CreatorProfile.SteamId : p.App.SteamId))
-                .ForMember(x => x.CreatorName, o => o.MapFrom(p => p.CreatorProfile != null ? p.CreatorProfile.Name : p.App.Name))
+                .ForMember(x => x.CreatorName, o => o.MapFrom(p => p.CreatorProfile != null ? p.CreatorProfile.Name : p.App.PublisherName))
                 .ForMember(x => x.CreatorAvatarUrl, o => o.MapFrom(p => p.CreatorProfile != null ? p.CreatorProfile.AvatarUrl : p.App.IconUrl))
                 .ForMember(x => x.Tags, o => o.MapFrom(p => p.Tags.OrderBy(x => x.Key).ToDictionary(x => x.Key, x => x.Value)))
                 .ForMember(x => x.Changes, o => o.MapFrom(p => p.Changes.OrderByDescending(x => x.Key).ToDictionary(x => x.Key.Ticks, x => x.Value)))
