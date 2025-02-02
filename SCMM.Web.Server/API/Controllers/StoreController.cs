@@ -228,7 +228,8 @@ namespace SCMM.Web.Server.API.Controllers
             {
                 case StoreTopSellerRankingType.SteamStoreRanking:
                     itemStoreDetail.Items = itemStoreDetail.Items
-                        .OrderByDescending(x => x.TopSellerIndex != null)
+                        .OrderByDescending(x => x.CreatorId != app.Id)
+                        .ThenByDescending(x => x.TopSellerIndex != null)
                         .ThenBy(x => x.TopSellerIndex)
                         .ThenByDescending(x => (x.SupplyTotalEstimated ?? 0) * x.StorePrice)
                         .ThenByDescending(x => (x.Subscriptions ?? 0) * x.StorePrice)
@@ -236,13 +237,15 @@ namespace SCMM.Web.Server.API.Controllers
                     break;
                 case StoreTopSellerRankingType.HighestTotalRevenue:
                     itemStoreDetail.Items = itemStoreDetail.Items
-                        .OrderByDescending(x => (x.SupplyTotalEstimated ?? 0) * x.StorePrice)
+                        .OrderByDescending(x => x.CreatorId != app.Id)
+                        .ThenByDescending(x => (x.SupplyTotalEstimated ?? 0) * x.StorePrice)
                         .ThenByDescending(x => (x.Subscriptions ?? 0) * x.StorePrice)
                         .ToArray();
                     break;
                 case StoreTopSellerRankingType.HighestTotalSales:
                     itemStoreDetail.Items = itemStoreDetail.Items
-                        .OrderByDescending(x => (x.SupplyTotalEstimated ?? 0))
+                        .OrderByDescending(x => x.CreatorId != app.Id)
+                        .ThenByDescending(x => (x.SupplyTotalEstimated ?? 0))
                         .ThenByDescending(x => (x.Subscriptions ?? 0))
                         .ToArray();
                     break;
