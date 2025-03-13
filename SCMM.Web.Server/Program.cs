@@ -439,7 +439,7 @@ public static class WebApplicationExtensions
             cspScriptSources: "'self' 'unsafe-inline' 'unsafe-eval' cdnjs.cloudflare.com cdn.jsdelivr.net cdn.skypack.dev www.googletagmanager.com www.google-analytics.com",
             cspStyleSources: "'self' 'unsafe-inline' cdnjs.cloudflare.com fonts.googleapis.com www.google-analytics.com",
             cspFontSources: "'self' data: cdnjs.cloudflare.com fonts.gstatic.com",
-            cspImageSources: "'self' data: blob: *.scmm.app *.akamaihd.net *.steamstatic.com cdnjs.cloudflare.com cdn.discordapp.com cdn.smartlydressedgames.com files.facepunch.com cdn.sbox.game www.google-analytics.com",
+            cspImageSources: "'self' data: blob: *.scmm.app *.akamaihd.net *.steamstatic.com images.steamusercontent.com cdnjs.cloudflare.com cdn.discordapp.com cdn.smartlydressedgames.com files.facepunch.com cdn.sbox.game www.google-analytics.com",
             cspFrameSources: "'self' www.youtube.com e.widgetbot.io",
             cspConnectSources: $"'self' *.scmm.app steamcommunity.com discordapp.com www.google-analytics.com stats.g.doubleclick.net {allowConnectLocalhost}",
             cspAllowCrossOriginEmbedding: true, // Required to embed images from Steam CDN in the UI
