@@ -1,5 +1,4 @@
-﻿@inherits ResponsiveDialog
-
+﻿
 <MudDialog>
     <TitleContent>
         <MudText Typo="MudBlazor.Typo.h6" Color="MudBlazor.Color.Default">
@@ -60,17 +59,13 @@
 </MudDialog>
 
 @code {
-    
-    protected override void OnConfigure(ResponsiveDialogOptions options)
-    {
-        options.FullscreenBreakpoint = MudBlazor.Breakpoint.Xs;
-        options.MaxWidth = MudBlazor.MaxWidth.Small;
-        options.CloseButton = true;
-    }
-    
+
+    [CascadingParameter]
+    private IMudDialogInstance MudDialog { get; set; }
+
     private void SignIn() 
     {
-        Dialog.Close(MudBlazor.DialogResult.Ok(true));
+        MudDialog.Close(MudBlazor.DialogResult.Ok(true));
     }
     
     protected override bool ShouldRender() => false;

@@ -1,5 +1,4 @@
-﻿@inherits ResponsiveDialog
-
+﻿
 <MudDialog>
     <TitleContent>
         <MudText Typo="Typo.h6" Color="Color.Default">@Title</MudText>
@@ -17,6 +16,9 @@
 
 @code {
 
+    [CascadingParameter]
+    private IMudDialogInstance MudDialog { get; set; }
+
     [Parameter]
     public string Title { get; set; } = "Are you sure?";
 
@@ -32,20 +34,14 @@
     [Parameter]
     public Color ConfirmColor { get; set; } = Color.Error;
 
-    protected override void OnConfigure(ResponsiveDialogOptions options)
-    {
-        options.MaxWidth = MudBlazor.MaxWidth.Small;
-        options.CloseButton = true;
-    }
-    
     private void Cancel()
     {
-        Dialog.Cancel();
+        MudDialog.Cancel();
     }
 
     private void Confirm() 
     {
-        Dialog.Close(MudBlazor.DialogResult.Ok(true));
+        MudDialog.Close(MudBlazor.DialogResult.Ok(true));
     }
     
     protected override bool ShouldRender() => false;

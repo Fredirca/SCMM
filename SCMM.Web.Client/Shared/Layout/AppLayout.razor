@@ -1,7 +1,5 @@
 ﻿@using MudBlazor.Services
 @inherits LayoutComponentBase
-@implements IAsyncDisposable
-@inject IBreakpointService BreakpointService
 @inject NavigationManager NavigationManager
 @inject AppState State
 
@@ -53,58 +51,6 @@
     private bool DrawerIsOpen { get; set; } = false;
 
     private DrawerVariant DrawerVariant { get; set; } = DrawerVariant.Responsive;
-
-    private Guid _breakpointSubscriptionId;
-
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (firstRender)
-        {
-            var subscriptionResult = await BreakpointService.SubscribeAsync(
-                (breakpoint) =>
-                {
-                    OnBreakpointChanged(breakpoint);
-                }, 
-                new ResizeOptions
-                {
-                    ReportRate = 250,
-                    NotifyOnBreakpointOnly = true,
-                }
-            );
-
-            _breakpointSubscriptionId = subscriptionResult.SubscriptionId;
-
-            OnBreakpointChanged(subscriptionResult.Breakpoint);
-            StateHasChanged();
-        }
-
-        await base.OnAfterRenderAsync(firstRender);
-    }
-
-    public async ValueTask DisposeAsync()
-    {
-        if (_breakpointSubscriptionId != Guid.Empty)
-        {
-            await BreakpointService.UnsubscribeAsync(_breakpointSubscriptionId);
-            _breakpointSubscriptionId = Guid.Empty;
-        }
-    }
-
-    protected virtual void OnBreakpointChanged(Breakpoint breakpoint)
-    {
-        if (BreakpointService.IsMediaSize(Breakpoint.MdAndUp, breakpoint))
-        {
-            DrawerVariant = DrawerVariant.Mini;
-            DrawerIsOpen = false;
-        }
-        else
-        {
-            DrawerVariant = DrawerVariant.Responsive;
-            DrawerIsOpen = false;
-        }
-
-        InvokeAsync(StateHasChanged);
-    }
 
     private void ToggleDrawer()
     {

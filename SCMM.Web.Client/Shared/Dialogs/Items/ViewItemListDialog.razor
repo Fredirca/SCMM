@@ -1,6 +1,5 @@
 ﻿@using SCMM.Web.Client.Shared.Components.Items
 @using SCMM.Web.Data.Models.UI.Item
-@inherits ResponsiveDialog
 @inject ILogger<ViewItemListDialog> Logger
 @inject ISnackbar Snackbar
 @inject PinnedActionManager PinnedActionManager
@@ -11,7 +10,7 @@
 <MudDialog>
     <TitleContent>
         <MudGrid>
-            <MudItem xs="12" Class="@($"d-flex flex-wrap {(IsMediaSize(Breakpoint.MdAndUp) ? "pr-12" : null)}")">
+            <MudItem xs="12" Class="d-flex flex-wrap pr-12">
                 <MudText Typo="MudBlazor.Typo.h6" Class="no-wrap">
                     @ListName
                     @if(List?.Items?.Any() == true)
@@ -31,7 +30,7 @@
                 @if (List?.Items?.Any() == true)
                 {
                     <MudMenu AnchorOrigin="Origin.BottomLeft" TransformOrigin="Origin.TopLeft"
-                             Dense="true" Class="@($"hover-darken mx-4 {(IsMediaSize(Breakpoint.SmAndDown) ? "mr-8" : null)}")" title="Change sort order">
+                             Dense="true" Class="hover-darken mx-4" title="Change sort order">
                         <ActivatorContent>
                             <MudText Typo="MudBlazor.Typo.h6" Color="MudBlazor.Color.Secondary">
                                 <i class="fas fa-fw fa-sort-alpha-down" />
@@ -59,7 +58,7 @@
                             }
                         </ChildContent>
                     </MudMenu>
-                    <MudTextField T="string" ValueChanged="@OnSearch" DebounceInterval="500" Placeholder="Filter items" FullWidth="@(IsMediaSize(Breakpoint.SmAndDown))" Class="flex-grow-0 mt-n4"
+                    <MudTextField T="string" ValueChanged="@OnSearch" DebounceInterval="500" Placeholder="Filter items" Class="flex-grow-0 mt-n4"
                                   Adornment="Adornment.Start" AdornmentIcon="fas fa-fw fa-filter mr-2" IconSize="MudBlazor.Size.Small" />
                 }
 			</MudItem>
@@ -201,6 +200,9 @@
 
 @code {
 
+    [CascadingParameter]
+    private IMudDialogInstance MudDialog { get; set; }
+
     [Parameter]
     public string ListName { get; set; }
 
@@ -231,14 +233,6 @@
 
     private bool IsActionPinned { get; set; }
 
-    protected override void OnConfigure(ResponsiveDialogOptions options)
-    {
-        options.FullscreenBreakpoint = MudBlazor.Breakpoint.Sm;
-        options.MaxWidth = MudBlazor.MaxWidth.Large;
-        options.FullWidth = true; // force item images to scale equally
-        options.CloseButton = true;
-    }
-
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
@@ -257,7 +251,7 @@
 
             IsActionPinned = await PinnedActionManager.IsPinned(PinnedAction);
 
-            Dialog.StateHasChanged();
+            MudDialog.StateHasChanged();
             StateHasChanged();
 
             if (HighlightedItemId > 0)

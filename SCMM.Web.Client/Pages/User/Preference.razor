@@ -1,4 +1,3 @@
-@inherits ResponsiveComponent
 
 <MudItem xs="12" md="6" lg="5" xl="4" xxl="3">
     <MudText Typo="Typo.body1" Color="Color.Default" GutterBottom Class="mt-2">@Title</MudText>
@@ -7,11 +6,6 @@
 <MudItem xs="12" md="6" lg="5" xl="4" xxl="3">
     @ChildContent
 </MudItem>
-@if (IsMediaSize(Breakpoint.LgAndUp))
-{
-<MudItem lg="2" xl="4" xxl="6">
-</MudItem>
-}
 
 @code {
     

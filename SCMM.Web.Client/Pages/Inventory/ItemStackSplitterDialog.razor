@@ -1,5 +1,4 @@
 ﻿@using SCMM.Web.Data.Models.UI.Profile.Inventory
-@inherits ResponsiveDialog
 @inject ILogger<ItemStackCombinerDialog> Logger
 @inject ISnackbar Snackbar
 @inject HttpClient Http
@@ -88,7 +87,7 @@
     </DialogContent>
     <DialogActions>
         <div class="d-flex gap-4 mx-4 my-2">
-            <MudButton OnClick="@(() => Dialog.Cancel())">Cancel</MudButton>
+            <MudButton OnClick="@(() => MudDialog.Cancel())">Cancel</MudButton>
             <MudButton OnClick="SplitSelectedItemStacks" Variant="MudBlazor.Variant.Filled" Color="MudBlazor.Color.Primary" StartIcon="@(IsSplitting ? "fas fa-fw fa-cog fa-spin" : "fa fa-fw fa-check")" 
                        Disabled="@(IsSplitting || SelectedStacks.All(x => x.Value == 0) || String.IsNullOrEmpty(SteamApiKey))">
                 @if(IsSplitting)
@@ -105,6 +104,9 @@
 </MudDialog>
 
 @code {
+
+    [CascadingParameter]
+    private IMudDialogInstance MudDialog { get; set; }
 
     [Parameter]
     public string SteamId { get; set; }
@@ -128,14 +130,6 @@
                 .Where(x => x.Quantity > 1)
                 .ToDictionary(x => x, x => 0);
         }
-    }
-
-    protected override void OnConfigure(ResponsiveDialogOptions options)
-    {
-        options.FullscreenBreakpoint = MudBlazor.Breakpoint.Sm;
-        options.MaxWidth = MudBlazor.MaxWidth.Small;
-        options.FullWidth = true; // force item images to scale equally
-        options.CloseButton = true;
     }
 
     private async Task SplitSelectedItemStacks()
@@ -174,7 +168,7 @@
             }
 
             Snackbar.Add($"Items were successfully split.", MudBlazor.Severity.Success, x => x.RequireInteraction = false);
-            Dialog.Close(true);
+            MudDialog.Close(true);
         }
         catch (Exception ex)
         {

@@ -1,5 +1,4 @@
 ﻿@using SCMM.Web.Client.Shared.Components.Items
-@inherits ResponsiveDialog
 
 <MudDialog DisableSidePadding="true" ClassContent="pa-0" ContentStyle="height:85vh">
     <TitleContent>
@@ -26,13 +25,5 @@
     
     [Parameter]
     public bool DisableGlowControls { get; set; }
-    
-    protected override void OnConfigure(ResponsiveDialogOptions options)
-    {
-        options.FullscreenBreakpoint = MudBlazor.Breakpoint.Sm;
-        options.MaxWidth = MudBlazor.MaxWidth.Large;
-        options.FullWidth = true;
-        options.NoHeader = true;
-    }
     
 }

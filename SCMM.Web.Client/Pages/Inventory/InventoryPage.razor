@@ -385,7 +385,7 @@
                 if (thisIsMyInventory)
                 {
                     options.Action = "Change Privacy Settings";
-                    options.Onclick = (x) =>
+                    options.OnClick = (x) =>
                     {
                         return ExternalNavigationManager.NavigateToNewTabAsync(
                             $"https://steamcommunity.com/profiles/{Profile?.SteamId}/edit/settings"

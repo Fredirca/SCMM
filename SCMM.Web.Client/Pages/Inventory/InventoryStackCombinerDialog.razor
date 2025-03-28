@@ -1,5 +1,4 @@
 ﻿@using SCMM.Web.Data.Models.UI.Profile.Inventory
-@inherits ResponsiveDialog
 @inject ILogger<InventoryStackCombinerDialog> Logger
 @inject ISnackbar Snackbar
 @inject HttpClient Http
@@ -29,7 +28,7 @@
     </DialogContent>
     <DialogActions>
         <div class="d-flex gap-4 mx-4 my-2">
-            <MudButton OnClick="@(() => Dialog.Cancel())">Cancel</MudButton>
+            <MudButton OnClick="@(() => MudDialog.Cancel())">Cancel</MudButton>
             <MudButton OnClick="CombineItemStacks" Variant="MudBlazor.Variant.Filled" Color="MudBlazor.Color.Primary" StartIcon="@(IsCombining ? "fas fa-fw fa-cog fa-spin" : "fa fa-fw fa-check")"
                        Disabled="@(IsCombining || String.IsNullOrEmpty(SteamApiKey))">
                 @if(IsCombining)
@@ -47,6 +46,9 @@
 
 @code {
 
+    [CascadingParameter]
+    private IMudDialogInstance MudDialog { get; set; }
+
     [Parameter]
     public string SteamId { get; set; }
 
@@ -55,14 +57,6 @@
     private bool IsCombining { get; set; }
 
     private bool StackUntradableAndUnmarketable { get; set; } = false;
-
-    protected override void OnConfigure(ResponsiveDialogOptions options)
-    {
-        options.FullscreenBreakpoint = MudBlazor.Breakpoint.Sm;
-        options.MaxWidth = MudBlazor.MaxWidth.Small;
-        options.FullWidth = true; // force item images to scale equally
-        options.CloseButton = true;
-    }
 
     private async Task CombineItemStacks()
     {
@@ -87,7 +81,7 @@
             }
 
             Snackbar.Add($"Inventory was successfully stacked.", MudBlazor.Severity.Success, x => x.RequireInteraction = false);
-            Dialog.Close(true);
+            MudDialog.Close(true);
         }
         catch (Exception ex)
         {

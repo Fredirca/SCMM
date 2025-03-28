@@ -2,7 +2,6 @@
 @using SCMM.Web.Data.Models.UI.Item
 @using Syncfusion.Blazor.Charts
 @using System.Reflection
-@inherits ResponsiveDialog
 @inject ILogger<ViewItemEstimatedSupplyDialog> Logger
 @inject ISnackbar Snackbar
 @inject ExternalNavigationManager ExternalNavigationManager
@@ -67,6 +66,9 @@
 
 @code {
 
+    [CascadingParameter]
+    private IMudDialogInstance MudDialog { get; set; }
+
     [Parameter]
     public string ItemName { get; set; }
 
@@ -79,14 +81,6 @@
 
     private IEnumerable<ItemHoldingUserDTO> ItemHolders;
 
-    protected override void OnConfigure(ResponsiveDialogOptions options)
-    {
-        options.FullscreenBreakpoint = MudBlazor.Breakpoint.Sm;
-        options.MaxWidth = MudBlazor.MaxWidth.Medium;
-        options.FullWidth = true;
-        options.CloseButton = true;
-    }
-
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
@@ -94,7 +88,7 @@
         try
         {
             Item = await Http.GetFromJsonWithDefaultsAsync<ItemDetailedDTO>(ItemUrl);
-            Dialog.StateHasChanged();
+            MudDialog.StateHasChanged();
         }
         catch (Exception ex)
         {
