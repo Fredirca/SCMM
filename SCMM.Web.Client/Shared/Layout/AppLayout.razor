@@ -1,5 +1,7 @@
 ﻿@using MudBlazor.Services
 @inherits LayoutComponentBase
+@implements IBrowserViewportObserver
+@implements IAsyncDisposable
 @inject NavigationManager NavigationManager
 @inject AppState State
 
@@ -48,9 +50,51 @@
 
 @code
 {
-    private bool DrawerIsOpen { get; set; } = false;
+    [Inject]
+    private IBrowserViewportService BrowserViewportService { get; set; }
 
     private DrawerVariant DrawerVariant { get; set; } = DrawerVariant.Responsive;
+
+    private bool DrawerIsOpen { get; set; } = false;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await BrowserViewportService.SubscribeAsync(this, fireImmediately: true);
+        }
+
+        await base.OnAfterRenderAsync(firstRender);
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        await BrowserViewportService.UnsubscribeAsync(this);
+    }
+
+    Guid IBrowserViewportObserver.Id { get; } = Guid.NewGuid();
+
+    ResizeOptions IBrowserViewportObserver.ResizeOptions { get; } = new()
+    {
+        ReportRate = 250,
+        NotifyOnBreakpointOnly = true
+    };
+
+    async Task IBrowserViewportObserver.NotifyBrowserViewportChangeAsync(BrowserViewportEventArgs browserViewportEventArgs)
+    {
+        if (await BrowserViewportService.IsBreakpointWithinReferenceSizeAsync(Breakpoint.MdAndUp, browserViewportEventArgs.Breakpoint))
+        {
+            DrawerVariant = DrawerVariant.Mini;
+            DrawerIsOpen = false;
+        }
+        else
+        {
+            DrawerVariant = DrawerVariant.Responsive;
+            DrawerIsOpen = false;
+        }
+
+        await InvokeAsync(StateHasChanged);
+    }
 
     private void ToggleDrawer()
     {
