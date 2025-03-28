@@ -48,7 +48,7 @@
                         @if (Item.WorkshopFileId != null)
                         {
                             <div class="d-flex align-center justify-center full-width item-preview-controls">
-                                <MudButtonGroup Color="Color.Default" Size="MudBlazor.Size.Medium" Variant="Variant.Filled" DisableElevation="true">
+                                <MudButtonGroup Color="Color.Default" Size="MudBlazor.Size.Medium" Variant="Variant.Filled">
                                     <MudTooltip Text="View the workshop page">
                                         <MudButton OnClick="@ViewItemWorkshopPage" Disabled="Item.WorkshopFileId == null || State.IsPrerendering">
                                             <i class="fas fa-fw fa-tools mr-1"></i>
@@ -953,12 +953,12 @@
                             </MudText>
                             <div class="pa-1 flex-shrink-1">
                                 <MudToggleIconButton @bind-Toggled="@MarketItemSalesDetailed" Disabled="State.IsPrerendering"
-                                                     Icon="fa fw-fw fa-toggle-off" Color="@Color.Secondary" Title="Off"
-                                                     ToggledIcon="fa fw-fw fa-toggle-on" ToggledColor="@Color.Primary" ToggledTitle="On" />
+                                                     Icon="fa fw-fw fa-toggle-off" Color="@Color.Secondary" 
+                                                     ToggledIcon="fa fw-fw fa-toggle-on" ToggledColor="@Color.Primary"  />
                                 <span class="mr-2">Details @(MarketItemSalesDetailed ? "On" : "Off")</span>
                                 <MudToggleIconButton @bind-Toggled="@MarketItemSalesAnnotations" Disabled="State.IsPrerendering"
-                                        Icon="fa fw-fw fa-toggle-off" Color="@Color.Secondary" Title="Off"
-                                        ToggledIcon="fa fw-fw fa-toggle-on" ToggledColor="@Color.Primary" ToggledTitle="On"/>
+                                        Icon="fa fw-fw fa-toggle-off" Color="@Color.Secondary"
+                                        ToggledIcon="fa fw-fw fa-toggle-on" ToggledColor="@Color.Primary" />
                                 <span class="mr-2">Annotations @(MarketItemSalesAnnotations ? "On" : "Off")</span>
                                 <MudButtonGroup Variant="Variant.Text" OverrideStyles="false">
                                     <MudButton OnClick="@(() => LoadItemSales(7))" Color="@(MarketItemSalesMaxDays == 7 ? Color.Primary : Color.Secondary)" Class="px-2" Disabled="State.IsPrerendering">Week</MudButton>
@@ -1382,7 +1382,7 @@
             $"https://rusthelp.com/tools/skins/{Item.WorkshopFileId}"
         );
         /*
-        Dialogs.Show<ViewItemModelDialog>(null, parameters: new DialogParameters()
+        _ = Dialogs.ShowAsync<ViewItemModelDialog>(null, parameters: new DialogParameters()
         {
             ["ItemName"] = Item.Name,
             ["ItemType"] = Item.ItemType,
@@ -1404,7 +1404,7 @@
 
     private void ShowCreatorItemsDialog()
     {
-        Dialogs.Show<ViewItemListDialog>(null, parameters: new DialogParameters()
+        _ = Dialogs.ShowAsync<ViewItemListDialog>(null, parameters: new DialogParameters()
         {
             ["ListName"] = $"Items by {Item.CreatorName}",
             ["ListUrl"] = $"api/item?creatorId={Item.CreatorId}&count=-1",
@@ -1416,7 +1416,7 @@
 
     private void ShowItemTypeDialog()
     {
-        Dialogs.Show<ViewItemListDialog>(null, parameters: new DialogParameters()
+        _ = Dialogs.ShowAsync<ViewItemListDialog>(null, parameters: new DialogParameters()
         {
             ["ListName"] = $"All {Item.ItemType.Pluralise()}",
             ["ListUrl"] = $"api/item?type={Item.ItemType}&count=-1",
@@ -1429,7 +1429,7 @@
 
     private void ShowItemCollectionDialog()
     {
-        Dialogs.Show<ViewItemCollectionDialog>(null, parameters: new DialogParameters()
+        _ = Dialogs.ShowAsync<ViewItemCollectionDialog>(null, parameters: new DialogParameters()
         {
             ["CollectionName"] = $"{Item.ItemCollection} Collection",
             ["CollectionUrl"] = $"api/item/collection/{Item.ItemCollection}?creatorId={(!Item.IsTwitchDrop ? Item.CreatorId : null)}"

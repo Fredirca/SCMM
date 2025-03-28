@@ -28,7 +28,7 @@ else if (!InventoryCollections.FilterBy(Filter).Any())
 }
 else 
 {
-    <MudExpansionPanels Dense="true" DisableGutters="true">
+    <MudExpansionPanels Dense="true" Gutters="false">
         @foreach (var collection in InventoryCollections.FilterBy(Filter))
         {
             <InventoryCollectionExpansionPanel Collection="collection" />

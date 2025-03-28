@@ -347,7 +347,7 @@
             @if (State.App?.FeatureFlags.HasFlag(SteamAppFeatureFlags.AssetDescriptionFeatureCrafting) == true)
             {
                 <MudTabPanel Icon="fas fa-fw fa-hammer mr-2" Text="Crafting" Disabled="State.IsPrerendering">
-                    <MudGrid Space="2">
+                    <MudGrid Spacing="2">
 
                         <MudItem xs="12" xl="6">
                             <AnalyticsPanel Icon="fas fa-fw fa-box" Title="Containers" Subtitle="What is the cheapest way to aquire craftable containers?" Dense="true">
@@ -673,7 +673,7 @@
 
     private void ShowItemDetailsDialog(string itemName, string itemAssetDescriptionId)
     {
-        Dialogs.Show<ViewItemDetailsDialog>(null, parameters: new DialogParameters()
+        _ = Dialogs.ShowAsync<ViewItemDetailsDialog>(null, parameters: new DialogParameters()
         {
             ["ItemName"] = itemName,
             ["ItemUrl"] = $"/api/item/{itemAssetDescriptionId}",

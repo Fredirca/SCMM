@@ -32,7 +32,7 @@
             }
             else if (ItemDefinitionArchivesList.Any())
             {
-                <MudExpansionPanels MultiExpansion="true" Dense="true" DisableGutters="true">
+                <MudExpansionPanels MultiExpansion="true" Dense="true" Gutters="false">
                     @foreach (var itemDefinitionArchive in ItemDefinitionArchivesList)
                     {
                         <MudExpansionPanel ExpandedChanged="@((x) => OnExpandedChanged(itemDefinitionArchive, x))" Disabled="itemDefinitionArchive.PreviousDigest == null">

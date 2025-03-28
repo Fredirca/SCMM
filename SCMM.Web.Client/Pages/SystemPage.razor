@@ -23,7 +23,7 @@
                                 <i class="fab fa-fw fa-steam" />
                                 <span>Steam Services</span>
                             </MudText>
-                            <MudIconButton Size="Size.Small" Variant="Variant.Text" Icon="fas fa-fw fa-rotate" Color="Color.Secondary" Title="Refresh system status" Disabled="State.IsPrerendering"
+                            <MudIconButton Size="Size.Small" Variant="Variant.Text" Icon="fas fa-fw fa-rotate" Color="Color.Secondary" title="Refresh system status" Disabled="State.IsPrerendering"
                                            OnClick="@(async () => await RefreshSystemStatusAsync())"></MudIconButton>
                         </MudStack>
                         @if (State.App?.FeatureFlags.HasFlag(SteamAppFeatureFlags.ItemDefinitions) == true)
@@ -210,7 +210,7 @@
                                     <span class="no-wrap"><i class="fas fa-fw fa-circle-xmark mr-1" /> Unavailable <strong>(@SystemStatus.Markets.Count(x => x.Status == SystemStatusSeverity.Critical))</strong></span>
                                 </MudText>
                             </MudStack>
-                            <MudIconButton Size="Size.Small" Variant="Variant.Text" Icon="fas fa-fw fa-rotate" Color="Color.Secondary" Title="Refresh system status" Disabled="State.IsPrerendering"
+                            <MudIconButton Size="Size.Small" Variant="Variant.Text" Icon="fas fa-fw fa-rotate" Color="Color.Secondary" title="Refresh system status" Disabled="State.IsPrerendering"
                                            OnClick="@(async () => await RefreshSystemStatusAsync())"></MudIconButton>
                         </MudStack>
                         <MudSimpleTable Elevation="0" FixedHeader="true" Dense="true">
@@ -304,7 +304,7 @@
                                     <span class="no-wrap"><i class="fas fa-fw fa-circle-xmark mr-1" /> Unavailable <strong>(@SystemStatus.WebProxies.Count(x => x.Status == SystemStatusSeverity.Critical))</strong></span>
                                 </MudText>
                             </MudStack>
-                            <MudIconButton Size="Size.Small" Variant="Variant.Text" Icon="fas fa-fw fa-rotate" Color="Color.Secondary" Title="Refresh system status" Disabled="State.IsPrerendering"
+                            <MudIconButton Size="Size.Small" Variant="Variant.Text" Icon="fas fa-fw fa-rotate" Color="Color.Secondary" title="Refresh system status" Disabled="State.IsPrerendering"
                                            OnClick="@(async () => await RefreshSystemStatusAsync())"></MudIconButton>
                         </MudStack>
                         <MudSimpleTable Elevation="0" FixedHeader="true" Dense="true" Style="height:50vh">

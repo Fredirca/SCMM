@@ -242,7 +242,7 @@
     
     private void ShowInventoryStackCombinerDialog()
     {
-        Dialogs.Show<InventoryStackCombinerDialog>(null, parameters: new DialogParameters()
+        _ = Dialogs.ShowAsync<InventoryStackCombinerDialog>(null, parameters: new DialogParameters()
         {
             ["SteamId"] = SteamId
         });

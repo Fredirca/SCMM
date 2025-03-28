@@ -21,11 +21,10 @@
                 <MudSpacer />
                 @if (List != null && PinnedAction != null)
                 {
-                    <MudToggleIconButton Toggled="IsActionPinned" ToggledChanged="TogglePinnedAction"
-                                         Title="Bookmark this list" ToggledTitle="Remove this bookmark"
+                    <MudToggleIconButton Toggled="IsActionPinned" ToggledChanged="TogglePinnedAction" title="Toggle list bookmark"
                                          Icon="far fa-bookmark" ToggledIcon="fas fa-bookmark"
                                          Size="MudBlazor.Size.Small" ToggledSize="MudBlazor.Size.Small"
-                                         Class="ma-1 ml-4 mr-0" DisableRipple="true" Disabled="@State.IsPrerendering" />
+                                         Class="ma-1 ml-4 mr-0" Ripple="false" Disabled="@State.IsPrerendering" />
                 }
                 @if (List?.Items?.Any() == true)
                 {

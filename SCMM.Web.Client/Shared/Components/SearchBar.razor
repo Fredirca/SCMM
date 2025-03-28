@@ -100,7 +100,7 @@
         switch (type)
         {
             case "List":
-                Dialogs.Show<ViewItemListDialog>(null, parameters: new DialogParameters()
+                _ = Dialogs.ShowAsync<ViewItemListDialog>(null, parameters: new DialogParameters()
                 {
                     ["ListName"] = description,
                     ["ListUrl"] = url,
@@ -110,7 +110,7 @@
                 break;
 
             case "Type":
-                Dialogs.Show<ViewItemListDialog>(null, parameters: new DialogParameters()
+                _ = Dialogs.ShowAsync<ViewItemListDialog>(null, parameters: new DialogParameters()
                 {
                     ["ListName"] = $"All {description.Pluralise()}",
                     ["ListUrl"] = url,
@@ -121,7 +121,7 @@
                 break;
 
             case "Collection":
-                Dialogs.Show<ViewItemCollectionDialog>(null, parameters: new DialogParameters()
+                _ = Dialogs.ShowAsync<ViewItemCollectionDialog>(null, parameters: new DialogParameters()
                 {
                     ["CollectionName"] = $"{description} Collection",
                     ["CollectionUrl"] = url
@@ -129,7 +129,7 @@
                 break;
 
             case "Item":
-                Dialogs.Show<ViewItemDetailsDialog>(null, parameters: new DialogParameters()
+                _ = Dialogs.ShowAsync<ViewItemDetailsDialog>(null, parameters: new DialogParameters()
                 {
                     ["ItemName"] = description,
                     ["ItemUrl"] = url

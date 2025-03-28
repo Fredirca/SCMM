@@ -23,7 +23,7 @@
                       Label="Steam API Key" Placeholder="Paste your Steam API key here..." HelperText="Click on the question mark icon to view and manage your Steam API Key"
                       Adornment="Adornment.End" AdornmentIcon="fa fa-fw fa-question-circle" OnAdornmentClick="@(() => ExternalNavigationManager.NavigateToNewTabAsync("https://steamcommunity.com/dev/apikey"))" />
         <div class="mt-4">
-            <MudCheckBox T="bool" @bind-Checked="@StackUntradableAndUnmarketable" Color="Color.Primary" Label="Include untradeable and unmarketable items. If selected, this may cause trade/market restrictions to be applied to the resulting stack." Disabled="@IsCombining" />
+            <MudCheckBox T="bool" @bind-Value="@StackUntradableAndUnmarketable" Color="Color.Primary" Label="Include untradeable and unmarketable items. If selected, this may cause trade/market restrictions to be applied to the resulting stack." Disabled="@IsCombining" />
         </div>
     </DialogContent>
     <DialogActions>

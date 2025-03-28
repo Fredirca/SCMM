@@ -728,7 +728,7 @@ else
             return;
         }
 
-        var dialog = Dialogs.Show<BuyStoreItemDialog>(null, parameters: new DialogParameters()
+        var dialog = await Dialogs.ShowAsync<BuyStoreItemDialog>(null, parameters: new DialogParameters()
         {
             ["Item"] = item,
         });
@@ -781,7 +781,7 @@ else
 
     private void ShowCreatorItemsDialog(StoreItemDetailsDTO item)
     {
-        Dialogs.Show<ViewItemListDialog>(null, parameters: new DialogParameters()
+        _ = Dialogs.ShowAsync<ViewItemListDialog>(null, parameters: new DialogParameters()
         {
             ["ListName"] = $"Items by {item.CreatorName}",
             ["ListUrl"] = $"api/item?creatorId={item.CreatorId}&count=-1",
@@ -793,7 +793,7 @@ else
 
     private void ShowItemDetailsDialog(StoreItemDetailsDTO item)
     {
-        Dialogs.Show<ViewItemDetailsDialog>(null, parameters: new DialogParameters()
+        _ = Dialogs.ShowAsync<ViewItemDetailsDialog>(null, parameters: new DialogParameters()
         {
             ["ItemName"] = item.Name,
             ["ItemUrl"] = $"/api/item/{item.AssetDescriptionId}"
@@ -806,7 +806,7 @@ else
             $"https://rusthelp.com/tools/skins/{item.WorkshopFileId}"
         );
         /*
-        Dialogs.Show<ViewItemModelDialog>(null, parameters: new DialogParameters()
+        _ = Dialogs.ShowAsync<ViewItemModelDialog>(null, parameters: new DialogParameters()
         {
             ["ItemName"] = item.Name,
             ["ItemType"] = item.ItemType,
@@ -819,7 +819,7 @@ else
 
     private void ShowStoreListDialog(StoreIdentifierDTO[] stores)
     {
-        Dialogs.Show<ViewStoreListDialog>(null, parameters: new DialogParameters()
+        _ = Dialogs.ShowAsync<ViewStoreListDialog>(null, parameters: new DialogParameters()
         {
             ["List"] = stores
         });
@@ -827,7 +827,7 @@ else
     
     private void ShowItemEstimatedSupplyDialog(StoreItemDetailsDTO item)
     {
-        Dialogs.Show<ViewItemEstimatedSupplyDialog>(null, parameters: new DialogParameters()
+        _ = Dialogs.ShowAsync<ViewItemEstimatedSupplyDialog>(null, parameters: new DialogParameters()
         {
             ["ItemName"] = item.Name,
             ["ItemUrl"] = $"/api/item/{item.AssetDescriptionId}"
@@ -836,7 +836,7 @@ else
 
     private void ShowItemTypeDialog(StoreItemDetailsDTO item)
     {
-        Dialogs.Show<ViewItemListDialog>(null, parameters: new DialogParameters()
+        _ = Dialogs.ShowAsync<ViewItemListDialog>(null, parameters: new DialogParameters()
         {
             ["ListName"] = $"All {item.ItemType.Pluralise()}",
             ["ListUrl"] = $"api/item?id={item.AssetDescriptionId}&type={item.ItemType}&count=-1",
@@ -849,7 +849,7 @@ else
 
     private void ShowItemCollectionDialog(StoreItemDetailsDTO item)
     {
-        Dialogs.Show<ViewItemCollectionDialog>(null, parameters: new DialogParameters()
+        _ = Dialogs.ShowAsync<ViewItemCollectionDialog>(null, parameters: new DialogParameters()
         {
             ["CollectionName"] = $"{item.ItemCollection} Collection",
             ["CollectionUrl"] = $"api/item/collection/{item.ItemCollection}?creatorId={item.CreatorId}"

@@ -110,7 +110,7 @@
 
     private void ShowItemDetailsDialog(ItemDescriptionDTO item)
     {
-        Dialogs.Show<ViewItemDetailsDialog>(null, parameters: new DialogParameters()
+        _ = Dialogs.ShowAsync<ViewItemDetailsDialog>(null, parameters: new DialogParameters()
         {
             ["ItemName"] = item.Name,
             ["ItemUrl"] = $"/api/item/{item.Id}"

@@ -12,7 +12,9 @@
             @if (Profile?.Roles?.Contains(Roles.VIP) == true)
             {
                 <div class="d-flex flex-column justify-center align-center" style="position:relative">
-                    <MudAvatar Image="@Profile.AvatarUrl" style="border:1px solid gold" />
+                    <MudAvatar style="border:1px solid gold">
+                        <MudImage Src="@Profile.AvatarUrl"/>
+                    </MudAvatar>
                     @if (Profile?.Roles?.Contains(Roles.VIP) == true)
                     {
                         <i class="fas fa-fw fa-crown fa-bounce" style="position:absolute; top:-0.75em; font-size:1.5em; color:gold; z-index:999999"></i>
@@ -45,7 +47,9 @@
             }
             else
             {
-                <MudAvatar Image="@Profile.AvatarUrl" />
+                <MudAvatar>
+                    <MudImage Src="@Profile.AvatarUrl" />
+                </MudAvatar>
             }
         }
         <div class="ml-2">

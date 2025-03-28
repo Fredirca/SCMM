@@ -393,7 +393,7 @@
     
     private async Task ShowDeleteProfileDataConfirmationDialog()
     {
-        var confirmation = Dialogs.Show<ConfirmationDialog>(null, parameters: new DialogParameters()
+        var confirmation = await Dialogs.ShowAsync<ConfirmationDialog>(null, parameters: new DialogParameters()
         {
             ["Title"] = "Are you sure?",
             ["Description"] = "Do you really want to delete your profile from SCMM? This process cannot be undone.",

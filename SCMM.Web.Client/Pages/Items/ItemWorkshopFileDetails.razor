@@ -13,7 +13,9 @@
     <MudCardContent Class="pa-0">
         <div class="d-flex justify-space-between align-start clickable" style="@GetPreviewImageStyles(Item)" @onclick="@(() => ViewItemWorkshopPage(Item))">
             <MudTooltip Text="@($"View more items created by {Item.CreatorName}")">
-                <MudAvatar Image="@Item.CreatorAvatarUrl" Size="MudBlazor.Size.Medium" Class="clickable ma-2" Style="filter: drop-shadow(2px 4px 6px black);" @onclick="@(() => ShowCreatorItemsDialog(Item))" />
+                <MudAvatar Size="MudBlazor.Size.Medium" Class="clickable ma-2" Style="filter: drop-shadow(2px 4px 6px black);" @onclick="@(() => ShowCreatorItemsDialog(Item))">
+                    <MudImage Src="@Item.CreatorAvatarUrl" />
+                </MudAvatar>
             </MudTooltip>
             @if (Item.TimeAccepted != null)
             {
@@ -139,7 +141,7 @@
 
     private void ShowCreatorItemsDialog(WorkshopFileDTO item)
     {
-        Dialogs.Show<ViewItemListDialog>(null, parameters: new DialogParameters()
+        _ = Dialogs.ShowAsync<ViewItemListDialog>(null, parameters: new DialogParameters()
         {
             ["ListName"] = $"Items by {Item.CreatorName}",
             ["ListUrl"] = $"api/item?creatorId={Item.CreatorId}&count=-1",
@@ -150,7 +152,7 @@
     
     private void ShowItemCollectionDialog(WorkshopFileDTO item)
     {
-        Dialogs.Show<ViewItemCollectionDialog>(null, parameters: new DialogParameters()
+        _ = Dialogs.ShowAsync<ViewItemCollectionDialog>(null, parameters: new DialogParameters()
         {
             ["CollectionName"] = $"{Item.ItemCollection} Collection",
             ["CollectionUrl"] = $"api/item/collection/{Item.ItemCollection}?creatorId={Item.CreatorId}"

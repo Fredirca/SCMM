@@ -128,8 +128,8 @@
 
     private async Task ShowSignInDialog()
     {
-        var result = await Dialogs.Show<SignInDialog>().Result;
-        if (!result.Canceled && (bool) result.Data == true)
+        var dialogResult = (await Dialogs.ShowAsync<SignInDialog>()).Result;
+        if (!dialogResult.Result.Canceled && (bool)dialogResult.Result.Data == true)
         {
             NavigateToSignIn();
         }

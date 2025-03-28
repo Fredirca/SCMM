@@ -261,7 +261,7 @@
 
     private void ShowItemEstimatedSupplyDialog(ItemSupplyStatisticDTO item)
     {
-        Dialogs.Show<ViewItemEstimatedSupplyDialog>(null, parameters: new DialogParameters()
+        _ = Dialogs.ShowAsync<ViewItemEstimatedSupplyDialog>(null, parameters: new DialogParameters()
         {
             ["ItemName"] = item.Name,
             ["ItemUrl"] = $"/api/item/{item.Id}"
@@ -270,7 +270,7 @@
 
     private void ShowItemCollectionDialog(DashboardAssetCollectionDTO collection)
     {
-        Dialogs.Show<ViewItemCollectionDialog>(null, parameters: new DialogParameters()
+        _ = Dialogs.ShowAsync<ViewItemCollectionDialog>(null, parameters: new DialogParameters()
         {
             ["CollectionName"] = $"{collection.Name} Collection",
             ["CollectionUrl"] = $"api/item/collection/{collection.Name}?creatorId={collection.CreatorId}"
@@ -279,7 +279,7 @@
 
     private void ShowProfileItemsDialog(ProfileAcceptedItemsStatisticDTO profile)
     {
-        Dialogs.Show<ViewItemListDialog>(null, parameters: new DialogParameters()
+        _ = Dialogs.ShowAsync<ViewItemListDialog>(null, parameters: new DialogParameters()
         {
             ["ListName"] = $"Items by {profile.Name}",
             ["ListUrl"] = $"api/item?creatorId={profile.SteamId}&count=-1",
