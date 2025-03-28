@@ -3,4 +3,10 @@
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" />
     <PackageReference Include="SocketIOClient" />
   </ItemGroup>
+  <ItemGroup>
+    <PackageReference Update="ReferenceTrimmer">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
 </Project>

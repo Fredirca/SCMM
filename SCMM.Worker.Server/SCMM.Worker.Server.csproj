@@ -21,4 +21,10 @@
     <ProjectReference Include="..\SCMM.Steam.Data.Store\SCMM.Steam.Data.Store.csproj" />
     <ProjectReference Include="..\SCMM.SteamCMD\SCMM.SteamCMD.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <PackageReference Update="ReferenceTrimmer">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
 </Project>

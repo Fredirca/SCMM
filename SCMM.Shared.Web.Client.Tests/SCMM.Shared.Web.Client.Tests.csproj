@@ -19,4 +19,10 @@
   <ItemGroup>
     <ProjectReference Include="..\SCMM.Shared.Web.Client\SCMM.Shared.Web.Client.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <PackageReference Update="ReferenceTrimmer">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
 </Project>
