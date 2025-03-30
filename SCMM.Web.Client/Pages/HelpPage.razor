@@ -3,9 +3,9 @@
 @inject AppState State
 
 <PageContainer Title="SCMM - Help">
-    <MudGrid Spacing="4">
+    <MudGrid>
         <MudItem xs="12" md="6" lg="5" xl="3">
-            <MudGrid Spacing="2">
+            <MudGrid>
 
                 <MudItem xs="12">
                     <MudText Typo="Typo.h6" Color="Color.Default">
@@ -38,7 +38,7 @@
             </MudGrid>
         </MudItem>
         <MudItem xs="12" md="6" lg="7" xl="9">
-            <MudGrid Spacing="2">
+            <MudGrid>
                 <MudItem xs="12">
                     <MudText Typo="Typo.h6" Color="Color.Default">
                         <span>How to use SCMM</span>
@@ -47,7 +47,7 @@
                     <MudText Typo="MudBlazor.Typo.body2" Color="MudBlazor.Color.Secondary" Class="mt-2" GutterBottom="true">
                         <p>Want to learn how to make the most out of SCMM functionality? Watch these videos.</p>
                     </MudText>
-                    <MudGrid Spacing="2">
+                    <MudGrid>
                         <MudItem xs="12" md="12" lg="6" xl="4">
                             <YouTubeVideo VideoId="O4lXnPF-IF8" /><!-- Find and buy Rust skins with EASE! (Scmm.app explained) -->
                         </MudItem>
@@ -66,7 +66,7 @@
                         <MudText Typo="MudBlazor.Typo.body2" Color="MudBlazor.Color.Secondary" Class="mt-2" GutterBottom="true">
                             <p>Want to learn more about the @State.App.Name and Steam Community Market economy? Watch these videos.</p>
                         </MudText>
-                        <MudGrid Spacing="2">
+                        <MudGrid>
                             @foreach (var media in State.App.EconomyMedia)
                             {
                                 <MudItem xs="12" md="12" lg="6" xl="4">

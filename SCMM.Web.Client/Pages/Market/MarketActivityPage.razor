@@ -18,7 +18,7 @@
         <span>Only a small subset of all Steam community market activity is shown here. Steam APIs don't show all actions performed on the market and have aggressive caching and rate limiting which restricts how much information can be detected by SCMM (or any other user/website for that matter). Some highly active items that have hundreds of sales per day may only show a handful of sales here, this is a limitation of the Steam APIs. SCMM attempts to track as much market activity as is possible to do so within the limitations of the current Steam APIs.</span>
     </MudAlert>
 
-    <MudGrid Spacing="2">
+    <MudGrid>
 
         <MudItem xs="12" sm="4" lg="2">
             <MudSelect T="SteamMarketItemActivityType?" Value="FilterType" ValueChanged="@OnFilterType" Label="Activity Type" Placeholder="Filter by activity type..." Margin="MudBlazor.Margin.None" Variant="MudBlazor.Variant.Outlined" 

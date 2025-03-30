@@ -1,7 +1,7 @@
 ﻿
 <div class="loading-container" @attributes="AdditionalAttributes">
     <MudProgressCircular Indeterminate="@(ProgressTotal == null)" Value="@((double)(ProgressLoaded ?? 0))" Min="0" Max="@((double)(ProgressTotal ?? 0))" Size="@Size" />
-    <MudText Typo="@Typo" Class="ma-6">
+    <MudText Typo="@Typo" Class="ma-4">
         <span>@Message</span>
         @if (ProgressLoaded > 0 && ProgressTotal > 0)
         {

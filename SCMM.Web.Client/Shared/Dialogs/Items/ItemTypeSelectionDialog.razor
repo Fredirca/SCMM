@@ -6,7 +6,7 @@
         <MudText Typo="MudBlazor.Typo.h6" Color="MudBlazor.Color.Default">Select an item</MudText>
     </TitleContent>
     <DialogContent>
-        <MudGrid Spacing="2" Class="mb-4">
+        <MudGrid Class="mb-4">
             @if (ItemTypesGroups != null)
             {
                 @foreach (var itemGroup in ItemTypesGroups.OrderBy(x => x.Name))

@@ -18,7 +18,7 @@
 
     <MudTabs @bind-ActivePanelIndex="PanelIndex" Elevation="0" KeepPanelsAlive="false" Class="mud-tabs-transparent">
         <MudTabPanel Icon="fas fa-fw fa-user mr-2" Text="Profile" Disabled="State.IsPrerendering">
-            <MudGrid Spacing="3">
+            <MudGrid>
                 <MudItem xs="12">
                     <MudCard class="full-height d-flex flex-column mud-card">
                         <MudCardHeader>
@@ -29,7 +29,7 @@
                             </CardHeaderContent>
                         </MudCardHeader>
                         <MudCardContent class="d-flex flex-column justify-center align-center">
-                            <MudGrid Spacing="4">
+                            <MudGrid>
                                 <MudItem xs="12" md="3" xl="2" xxl="1" class="d-flex flex-column justify-center align-center">
                                     <MudAvatar Class="full-width full-height text-centered mx-2 mb-4" Style="max-width:8rem; max-height:8rem;">
                                         <MudImage Src="@State.Profile.AvatarLargeUrl" />
@@ -42,7 +42,7 @@
                                     </MudText>
                                 </MudItem>
                                 <MudItem xs="12" md="9" xl="10" xxl="11">
-                                    <MudGrid Spacing="4">
+                                    <MudGrid>
                                         <MudItem xs="12">
                                             <MudTextField Label="Steam Trade URL" Variant="MudBlazor.Variant.Outlined" FullWidth Disabled="State.IsPrerendering"
                                                           @bind-Value="@Update.TradeUrl" DebounceInterval="1000" OnDebounceIntervalElapsed="UpdateProfile"
@@ -97,7 +97,7 @@
             </MudGrid>
         </MudTabPanel>
         <MudTabPanel Icon="fas fa-fw fa-sliders-h mr-2" Text="Preferences" Disabled="State.IsPrerendering">
-            <MudGrid Spacing="3">
+            <MudGrid>
                 <MudItem xs="12">
                     <MudCard class="full-height d-flex flex-column mud-card">
                         <MudCardHeader>
@@ -108,7 +108,7 @@
                             </CardHeaderContent>
                         </MudCardHeader>
                         <MudCardContent class="pt-0">
-                            <MudGrid Spacing="4">
+                            <MudGrid >
                                 <MudItem xs="12" lg="6" xl="4" xxl="3">
                                     <MudTextField Label="Preferred Language" Variant="MudBlazor.Variant.Outlined" FullWidth Disabled="State.IsPrerendering || true"
                                                   Value="@State.Profile.Language.Name"
@@ -133,7 +133,7 @@
                             </CardHeaderContent>
                         </MudCardHeader>
                         <MudCardContent class="pt-0">
-                            <MudGrid Spacing="4">
+                            <MudGrid>
                                 <Preference Title="Store 'Top Sellers'" 
                                             Description="Which data source is used to determine top selling items in the store.">
                                     <MudSelect T="StoreTopSellerRankingType" Value="@Update.StoreTopSellers" ValueChanged="((x) => { Update.StoreTopSellers = x; _ = UpdateProfile(); })" Margin="MudBlazor.Margin.None" Variant="MudBlazor.Variant.Outlined" FullWidth="false" Class="ma-0" Disabled="State.IsPrerendering">
@@ -227,7 +227,7 @@
             </MudGrid>
         </MudTabPanel>
         <MudTabPanel Icon="fas fa-fw fa-database mr-3" Text="Account Data" Disabled="State.IsPrerendering">
-            <MudGrid Spacing="3">
+            <MudGrid>
                 <MudItem xs="12">
                     <MudCard class="full-height d-flex flex-column mud-card">
                         <MudCardHeader>

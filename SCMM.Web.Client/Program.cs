@@ -94,6 +94,8 @@ public static class WebAssemblyHostExtensions
             config.SnackbarConfiguration.RequireInteraction = true;
             config.SnackbarConfiguration.PreventDuplicates = true;
             config.SnackbarConfiguration.ClearAfterNavigation = false;
+
+            MudGlobal.GridDefaults.Spacing = 4;
         });
 
         services.AddSyncfusionBlazor();

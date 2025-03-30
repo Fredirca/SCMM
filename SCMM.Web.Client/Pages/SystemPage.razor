@@ -12,7 +12,7 @@
     }
     else
     {
-       <MudGrid Spacing="4">
+       <MudGrid>
 
             @if (SystemStatus.SteamApp != null)
             {
@@ -231,7 +231,7 @@
                                 {
                                     <tr>
                                         <td>
-                                            <MudStack Spacing="2" Row="true" AlignItems="AlignItems.Center">
+                                            <MudStack Row="true" AlignItems="AlignItems.Center">
                                                 <img src="@($"/images/app/{State.App.Id}/markets/{market.Type.ToString().ToLower()}.png")" style="width:1.5em; height:1.5em" />
                                                 <span>@market.Type.GetDisplayName()</span>
                                             </MudStack>

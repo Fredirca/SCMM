@@ -12,7 +12,7 @@
 @inject HttpClient Http
 @inject AppState State
 
-<MudGrid Spacing="2">
+<MudGrid>
     
     @if (State.App?.FeatureFlags.HasFlag(SteamAppFeatureFlags.ItemWorkshopAcceptedTracking) == true)
     {

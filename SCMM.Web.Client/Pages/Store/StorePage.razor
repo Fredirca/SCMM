@@ -55,10 +55,10 @@ else if (StoreList.Any() || Store != null)
             </Header>
         </MudTabs>
     }
-    <PageContainer Title="@($"{State?.App?.Name} Store - {(Store?.Start?.ToString("d") ?? Store?.Name ?? "Store")}")" Class="ma-6"
+    <PageContainer Title="@($"{State?.App?.Name} Store - {(Store?.Start?.ToString("d") ?? Store?.Name ?? "Store")}")"
     Description="@(Store != null ? $"Store contains {Store.Items.Length} item(s) with a total cost of {State.Currency?.ToPriceString(Store.Items.Sum(x => x.StorePrice ?? 0))}." : null)"
     ImageUrl="@Store?.ItemsThumbnailUrl">
-        <MudGrid Spacing="2">
+        <MudGrid>
             @if (Store == null)
             {
                 <MudItem xs="12">
@@ -182,7 +182,7 @@ else if (StoreList.Any() || Store != null)
                                     </CardHeaderActions>
                                 </MudCardHeader>
                                 <MudCardContent Class="d-flex flex-grow-1">
-                                    <MudGrid Spacing="1" Class="flex-grow-1">
+                                    <MudGrid Class="flex-grow-1">
 
                                         <MudItem xs="12" xl="5" Class="d-flex flex-column flex-grow-1">
                                             <MudTooltip Text="View more item details" RootClass="d-flex flex-grow-1 align-center justify-center full-width full-height">

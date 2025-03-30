@@ -28,7 +28,7 @@
     <MudDrawer @bind-Open="DrawerIsOpen" Variant="@DrawerVariant" OpenMiniOnHover="true" ClipMode="DrawerClipMode.Always" Breakpoint="Breakpoint.Md" Elevation="2">
         <AppNavigationMenu />
     </MudDrawer>
-    <MudMainContent Style="height:100vh; overflow-y:scroll; overflow-x:hidden;">
+    <MudMainContent Style="height:100%; overflow-y:scroll; overflow-x:hidden;">
         @if (State.SystemStatus?.Alerts != null)
         {
             foreach (var systemAlert in State.SystemStatus.Alerts)

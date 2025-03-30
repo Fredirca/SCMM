@@ -37,7 +37,7 @@
                                                       Placeholder="Filter items..." FullWidth="true" Class="mud-input-full-height ma-0" Adornment="Adornment.Start" AdornmentIcon="fas fa-fw fa-filter mr-2" IconSize="MudBlazor.Size.Small" Disabled="State.IsPrerendering" />
                                     </th>
                                     <th class="py-0 my-0" style="vertical-align:bottom">
-                                        <MudGrid Spacing="1">
+                                        <MudGrid>
                                             <MudItem xs="12">
                                                 <MudSelect T="MarketType?" Value="@MarketType" ValueChanged="async (x) => { MarketType = x; await VirtualiseMarketCheapestListings.RefreshDataAsync(); StateHasChanged(); }" 
                                                            ToStringFunc="@(x => $"Cheapest {(x != null ? $"{x.GetDisplayName()} offer" : "offer from all markets")}")"
@@ -196,7 +196,7 @@
                                                           Placeholder="Filter items..." FullWidth="true" Class="mud-input-full-height ma-0" Adornment="Adornment.Start" AdornmentIcon="fas fa-fw fa-filter mr-2" IconSize="MudBlazor.Size.Small" Disabled="State.IsPrerendering" />
                                         </th>
                                         <th class="py-0 my-0" style="vertical-align:bottom">
-                                            <MudGrid Spacing="1">
+                                            <MudGrid>
                                                 <MudItem xs="12">
                                                     <MudSelect T="MarketType?" Value="@MarketType" ValueChanged="async (x) => { MarketType = x; await VirtualiseMarketFlips.RefreshDataAsync(); StateHasChanged(); }" 
                                                                ToStringFunc="@(x => $"Buy it {(x != null ? $"from {x.GetDisplayName()}" : "from the cheapest market")}")"
@@ -347,7 +347,7 @@
             @if (State.App?.FeatureFlags.HasFlag(SteamAppFeatureFlags.AssetDescriptionFeatureCrafting) == true)
             {
                 <MudTabPanel Icon="fas fa-fw fa-hammer mr-2" Text="Crafting" Disabled="State.IsPrerendering">
-                    <MudGrid Spacing="2">
+                    <MudGrid>
 
                         <MudItem xs="12" xl="6">
                             <AnalyticsPanel Icon="fas fa-fw fa-box" Title="Containers" Subtitle="What is the cheapest way to aquire craftable containers?" Dense="true">
