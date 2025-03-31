@@ -28,36 +28,36 @@
 }
 else if (StoreList.Any() || Store != null)
 {
-    if (StoreList.Any())
-    {
-        <MudTabs @ref="StoreTabs" Elevation="0" Position="MudBlazor.Position.Bottom" ActivePanelIndex="StoreIndex" ActivePanelIndexChanged="OnSelectedStoreChanged" KeepPanelsAlive="false" Class="mud-tabs-transparent mb-0">
-            <ChildContent>
-                @foreach (var store in StoreList)
-                {
-                    <MudTabPanel ID="@store.Id" Tag="@store" Text="@GetStoreTitle(store)" Disabled="State.IsPrerendering" />
-                }
-            </ChildContent>
-            <TabPanelHeader>
-                @if ((context.Tag as StoreIdentifierDTO).Start != null)
-                {
-                    if (!String.IsNullOrEmpty((context.Tag as StoreIdentifierDTO).Name))
-                    {
-                        <MudText Typo="MudBlazor.Typo.body2" Color="MudBlazor.Color.Secondary" Class="pl-2">@((context.Tag as StoreIdentifierDTO).Name)</MudText>
-                    }
-                }
-                else
-                {
-                    <MudText Typo="MudBlazor.Typo.body2" Color="MudBlazor.Color.Secondary" Class="pl-2"><i class="fas fa-thumbtack"></i></MudText>
-                }
-            </TabPanelHeader>
-            <Header>
-                <MudIconButton Icon="fa fa-fw fa-history" OnClick="@(() => ShowStoreListDialog(StoreList))" title="View previous stores" />
-            </Header>
-        </MudTabs>
-    }
     <PageContainer Title="@($"{State?.App?.Name} Store - {(Store?.Start?.ToString("d") ?? Store?.Name ?? "Store")}")" Class="mt-0 mb-4 mx-4"
     Description="@(Store != null ? $"Store contains {Store.Items.Length} item(s) with a total cost of {State.Currency?.ToPriceString(Store.Items.Sum(x => x.StorePrice ?? 0))}." : null)"
-    ImageUrl="@Store?.ItemsThumbnailUrl">
+                   ImageUrl="@Store?.ItemsThumbnailUrl">
+        @if (StoreList.Any())
+        {
+            <MudTabs @ref="StoreTabs" ActivePanelIndex="StoreIndex" ActivePanelIndexChanged="OnSelectedStoreChanged" KeepPanelsAlive="false" Class="mud-tabs-transparent">
+                <ChildContent>
+                    @foreach (var store in StoreList)
+                    {
+                        <MudTabPanel ID="@store.Id" Tag="@store" Text="@GetStoreTitle(store)" Disabled="State.IsPrerendering" />
+                    }
+                </ChildContent>
+                <TabPanelHeader>
+                    @if ((context.Tag as StoreIdentifierDTO).Start != null)
+                    {
+                        if (!String.IsNullOrEmpty((context.Tag as StoreIdentifierDTO).Name))
+                        {
+                            <MudText Typo="MudBlazor.Typo.body2" Color="MudBlazor.Color.Secondary" Class="pl-2">@((context.Tag as StoreIdentifierDTO).Name)</MudText>
+                        }
+                    }
+                    else
+                    {
+                        <MudText Typo="MudBlazor.Typo.body2" Color="MudBlazor.Color.Secondary" Class="pl-2"><i class="fas fa-thumbtack"></i></MudText>
+                    }
+                </TabPanelHeader>
+                <Header>
+                    <MudIconButton Icon="fa fa-fw fa-history" OnClick="@(() => ShowStoreListDialog(StoreList))" title="View previous stores" />
+                </Header>
+            </MudTabs>
+        }
         <MudGrid>
             @if (Store == null)
             {
