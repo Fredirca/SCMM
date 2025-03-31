@@ -10,7 +10,7 @@ public abstract class ResponsiveDialog : ComponentBase, IBrowserViewportObserver
     private IBrowserViewportService BrowserViewportService { get; set; }
 
     [CascadingParameter]
-    private IMudDialogInstance Dialog { get; set; }
+    protected IMudDialogInstance Dialog { get; set; }
 
     protected abstract ResponsiveDialogOptions DialogOptions { get; }
 

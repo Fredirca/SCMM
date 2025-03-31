@@ -49,12 +49,12 @@
 
 @code {
 
-    protected override bool ShouldRender() => false;
-
     protected override ResponsiveDialogOptions DialogOptions => new ResponsiveDialogOptions()
     {
         FullscreenBreakpoint = Breakpoint.Xs,
         MaxWidth = MaxWidth.ExtraSmall
     };
+
+    protected override bool ShouldRender() => false;
 
 }

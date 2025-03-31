@@ -1,5 +1,6 @@
 ﻿@using SCMM.Web.Client.Shared.Components.Items
 @using SCMM.Web.Data.Models.UI.Item
+@inherits ResponsiveDialog
 @inject ILogger<ViewItemCollectionDialog> Logger
 @inject ISnackbar Snackbar
 @inject PinnedActionManager PinnedActionManager
@@ -119,9 +120,6 @@
 
 @code {
 
-    [CascadingParameter]
-    private IMudDialogInstance MudDialog { get; set; }
-
     [Parameter]
     public string CollectionName { get; set; }
     
@@ -140,6 +138,12 @@
 
     private bool IsActionPinned { get; set; }
 
+    protected override ResponsiveDialogOptions DialogOptions => new ResponsiveDialogOptions()
+    {
+        FullscreenBreakpoint = Breakpoint.Sm,
+        MaxWidth = MaxWidth.Large
+    };
+
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
@@ -157,7 +161,7 @@
 
             IsActionPinned = await PinnedActionManager.IsPinned(PinnedAction);
 
-            MudDialog.StateHasChanged();
+            Dialog.StateHasChanged();
         }
         catch (Exception ex)
         {

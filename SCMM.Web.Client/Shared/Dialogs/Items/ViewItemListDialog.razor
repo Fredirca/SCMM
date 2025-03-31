@@ -1,5 +1,6 @@
 ﻿@using SCMM.Web.Client.Shared.Components.Items
 @using SCMM.Web.Data.Models.UI.Item
+@inherits ResponsiveDialog
 @inject ILogger<ViewItemListDialog> Logger
 @inject ISnackbar Snackbar
 @inject PinnedActionManager PinnedActionManager
@@ -57,7 +58,7 @@
                             }
                         </ChildContent>
                     </MudMenu>
-                    <MudTextField T="string" ValueChanged="@OnSearch" DebounceInterval="500" Placeholder="Filter items" Class="flex-grow-0 mt-n4"
+                    <MudTextField T="string" ValueChanged="@OnSearch" DebounceInterval="500" Placeholder="Filter items" Class="flex-grow-0"
                                   Adornment="Adornment.Start" AdornmentIcon="fas fa-fw fa-filter mr-2" IconSize="MudBlazor.Size.Small" />
                 }
 			</MudItem>
@@ -199,9 +200,6 @@
 
 @code {
 
-    [CascadingParameter]
-    private IMudDialogInstance MudDialog { get; set; }
-
     [Parameter]
     public string ListName { get; set; }
 
@@ -232,6 +230,12 @@
 
     private bool IsActionPinned { get; set; }
 
+    protected override ResponsiveDialogOptions DialogOptions => new ResponsiveDialogOptions()
+    {
+        FullscreenBreakpoint = Breakpoint.Sm,
+        MaxWidth = MaxWidth.Large
+    };
+
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
@@ -250,7 +254,7 @@
 
             IsActionPinned = await PinnedActionManager.IsPinned(PinnedAction);
 
-            MudDialog.StateHasChanged();
+            Dialog.StateHasChanged();
             StateHasChanged();
 
             if (HighlightedItemId > 0)
