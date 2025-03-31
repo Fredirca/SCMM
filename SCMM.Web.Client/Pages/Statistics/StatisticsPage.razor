@@ -3,19 +3,16 @@
 @page "/steam/marketstatistics"
 @inject ILogger<StatisticsPage> Logger
 @inject AppState State
-
-<MudTabs Elevation="0" KeepPanelsAlive="false" Class="mud-tabs-transparent mt-0">
-    <ChildContent>
-        <PageContainer Title="@($"{State?.App?.Name} Market Statistics")">
-            @if (State.App?.FeatureFlags.HasFlag(SteamAppFeatureFlags.ItemMarketPriceTracking) == true)
-            {
-                <MudTabPanel Icon="fas fa-fw fa-balance-scale-right mr-3" Text="@($"{State.App.Name} Market")" Disabled="State.IsPrerendering">
-                    <StatisticsMarketPanel />
-                </MudTabPanel>
-            }
-            <MudTabPanel Icon="fas fa-fw fa-list-ol mr-3" Text="@($"{State.App.Name} Items")" Disabled="State.IsPrerendering">
-                <StatisticsItemPanel />
+<PageContainer Title="@($"{State?.App?.Name} Market Statistics")">
+    <MudTabs KeepPanelsAlive="false" Class="mud-tabs-transparent">
+        @if (State.App?.FeatureFlags.HasFlag(SteamAppFeatureFlags.ItemMarketPriceTracking) == true)
+        {
+            <MudTabPanel Icon="fas fa-fw fa-balance-scale-right mr-3" Text="@($"{State.App.Name} Market")" Disabled="State.IsPrerendering">
+                <StatisticsMarketPanel />
             </MudTabPanel>
-        </PageContainer>
-	</ChildContent>
-</MudTabs>
+        }
+        <MudTabPanel Icon="fas fa-fw fa-list-ol mr-3" Text="@($"{State.App.Name} Items")" Disabled="State.IsPrerendering">
+            <StatisticsItemPanel />
+        </MudTabPanel>
+    </MudTabs>
+</PageContainer>
