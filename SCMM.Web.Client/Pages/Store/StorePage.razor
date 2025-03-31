@@ -55,7 +55,7 @@ else if (StoreList.Any() || Store != null)
             </Header>
         </MudTabs>
     }
-    <PageContainer Title="@($"{State?.App?.Name} Store - {(Store?.Start?.ToString("d") ?? Store?.Name ?? "Store")}")"
+    <PageContainer Title="@($"{State?.App?.Name} Store - {(Store?.Start?.ToString("d") ?? Store?.Name ?? "Store")}")" Class="mt-0 mb-4 mx-4"
     Description="@(Store != null ? $"Store contains {Store.Items.Length} item(s) with a total cost of {State.Currency?.ToPriceString(Store.Items.Sum(x => x.StorePrice ?? 0))}." : null)"
     ImageUrl="@Store?.ItemsThumbnailUrl">
         <MudGrid>
