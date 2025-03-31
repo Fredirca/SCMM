@@ -95,6 +95,7 @@ public static class WebAssemblyHostExtensions
             config.SnackbarConfiguration.PreventDuplicates = true;
             config.SnackbarConfiguration.ClearAfterNavigation = false;
 
+            MudGlobal.StackDefaults.Spacing = 2;
             MudGlobal.GridDefaults.Spacing = 4;
         });
 
