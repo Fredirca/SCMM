@@ -217,14 +217,15 @@
                         Snackbar.Add($"Unable to load item definition archive. {ex.Message}", MudBlazor.Severity.Error);
                     }
                 })
-                .ContinueWith(t => StateHasChanged());
+                .ContinueWith(t => InvokeAsync(StateHasChanged));
 
         }
         else
         {
             // Reset after a while to prevent sudden collapse
             Task.Delay(350)
-                .ContinueWith(t => ItemDefinitionArchiveDiffs[archive.Digest] = null);
+                .ContinueWith(t => ItemDefinitionArchiveDiffs[archive.Digest] = null)
+                .ContinueWith(t => InvokeAsync(StateHasChanged));
         }
     }
 
