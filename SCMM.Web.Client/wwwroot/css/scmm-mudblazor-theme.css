@@ -32,15 +32,7 @@
     background: black;
 }
 
-.mud-tabs-transparent .mud-tabs-toolbar {
-    background: none;
-}
-
-.mud-tabs-transparent .mud-tab:hover {
-    background: none;
-}
-
-.mud-tabs-transparent .mud-tab-active:hover {
+.mud-tabs-transparent .mud-tabs-tabbar {
     background: none;
 }
 
