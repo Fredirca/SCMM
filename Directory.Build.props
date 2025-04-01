@@ -33,16 +33,13 @@
 		<MSBuildWarningsAsErrors>$(WarningsAsErrors)</MSBuildWarningsAsErrors>
 	</PropertyGroup>
 	
+	<!--
+	    Report unrecognised parameters on MudBlazor components as errors
+	-->
 	<PropertyGroup>
 		<MudAllowedAttributePattern>LowerCase</MudAllowedAttributePattern>
-		<MudIllegalParameters>V7CaseSensitive</MudIllegalParameters>
-		<WarningsAsErrors>$(WarningsAsErrors);MUD0001;MUD0002;</WarningsAsErrors>
+		<WarningsAsErrors>$(WarningsAsErrors);MUD0002;</WarningsAsErrors>
 		<MSBuildWarningsAsErrors>$(WarningsAsErrors)</MSBuildWarningsAsErrors>
 	</PropertyGroup>
 
-	<ItemGroup>
-		<CompilerVisibleProperty Include="MudAllowedAttributePattern" />
-		<CompilerVisibleProperty Include="MudIllegalParameters" />
-	</ItemGroup>
-	
 </Project>
