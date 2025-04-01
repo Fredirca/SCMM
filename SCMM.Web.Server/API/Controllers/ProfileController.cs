@@ -184,6 +184,10 @@ namespace SCMM.Web.Server.API.Controllers
             }
 
             // Null out all loopback properties to prevent cyclic references when serialising
+            foreach (var value in profile.InventoryValues)
+            {
+                value.Profile = null;
+            }
             foreach (var item in profile.InventoryItems)
             {
                 item.Profile = null;
