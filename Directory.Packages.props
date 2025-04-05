@@ -64,8 +64,8 @@
     <PackageVersion Include="SixLabors.ImageSharp.Drawing" Version="2.1.5" />
     <PackageVersion Include="SocketIOClient" Version="3.1.2" />
     <PackageVersion Include="StackExchange.Redis" Version="2.8.31" />
-    <PackageVersion Include="Swashbuckle.AspNetCore" Version="8.0.0" />
-    <PackageVersion Include="Swashbuckle.AspNetCore.Annotations" Version="8.0.0" />
+    <PackageVersion Include="Swashbuckle.AspNetCore" Version="8.1.0" />
+    <PackageVersion Include="Swashbuckle.AspNetCore.Annotations" Version="8.1.0" />
     <PackageVersion Include="Swashbuckle.AspNetCore.Filters" Version="8.0.2" />
     <PackageVersion Include="Syncfusion.Blazor.Charts" Version="29.1.33" />
     <PackageVersion Include="Syncfusion.Blazor.Themes" Version="29.1.33" />
