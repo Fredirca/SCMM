@@ -4,8 +4,8 @@ SCMM is a fan-created project dedicated to collecting and analyzing data from th
 | | Website | Status |
 |----|----|----|
 |**Rust**|https://rust.scmm.app/store|✅ Fully supported.|
-|**Unturned**|https://unturned.scmm.app/items|⚠ Work in progress. Basic historical data is available, but all data update jobs are disabled.|
-|**CSGO**|https://csgo.scmm.app/items|⚠ Work in progress. Basic historical data is available, but all data update jobs are disabled.|
+|**s&box**|https://sbox.scmm.app/items|⚠ Work in progress.|
+|**CSGO**|https://csgo.scmm.app/items|⚠ Work in progress. Only very basic store data is available, all data update jobs are disabled.|
 
 # Project architecture
 SCMM started as a personal project to gain practical and hands-on experience using [Azure](https://azure.microsoft.com/en-us) and [Blazor](https://dotnet.microsoft.com/en-us/apps/aspnet/web-apps/blazor). Because of this, a lot of decisions within the project may seem strange, hacky, or overengineered. Sometimes things were done they way they are just as an excuse to try out a specific technology or feature and not because it was the most sensible or pragmatic option.
