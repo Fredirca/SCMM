@@ -281,7 +281,7 @@ else
         }
         catch (Exception ex)
         {
-            Logger.LogError(ex, $"Error fetching inventory market movement for '{SteamId}'");
+            Logger.LogError(ex, $"Error fetching inventory market movement");
             InventoryMovement = null;
             LoadingError = ex;
             throw;

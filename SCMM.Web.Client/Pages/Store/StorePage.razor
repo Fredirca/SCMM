@@ -724,7 +724,7 @@ else
         catch (Exception ex)
         {
             StoreException = ex;
-            Logger.LogError(ex, $"Error loading store {storeId}");
+            Logger.LogError(ex, $"Error loading store");
             Snackbar.Add($"Unable to load store details. {ex.Message}", MudBlazor.Severity.Error);
             StateHasChanged();
         }

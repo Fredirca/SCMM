@@ -281,7 +281,7 @@
         }
         catch (Exception ex)
         {
-            Logger.LogError(ex, $"Error loading profile inventory '{Uri.EscapeDataString(SteamId)}'");
+            Logger.LogError(ex, $"Error loading profile inventory");
             LoadingMessage = null;
             LoadingError = ex.Message;
             LoadingErrorStatusCode = (ex as HttpRequestException)?.StatusCode;
@@ -304,7 +304,7 @@
         }
         catch (Exception ex)
         {
-            Logger.LogError(ex, $"Error fetching inventory profile for '{Uri.EscapeDataString(SteamId)}'");
+            Logger.LogError(ex, $"Error fetching inventory profile");
             Profile = null;
             throw;
         }
@@ -337,7 +337,7 @@
             }
             else
             {
-                Logger.LogError(ex, $"Error synchronising inventory items for '{Uri.EscapeDataString(SteamId)}'");
+                Logger.LogError(ex, $"Error synchronising inventory items");
                 throw;
             }
         }
@@ -354,7 +354,7 @@
         }
         catch (Exception ex)
         {
-            Logger.LogError(ex, $"Error fetching inventory totals for '{Uri.EscapeDataString(SteamId)}'");
+            Logger.LogError(ex, $"Error fetching inventory totals");
             InventoryTotals = null;
             throw;
         }
