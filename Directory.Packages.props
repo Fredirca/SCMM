@@ -55,7 +55,7 @@
     <PackageVersion Include="Microsoft.Identity.Web.UI" Version="3.9.2" />
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.14.0" />
     <PackageVersion Include="Moq" Version="4.20.72" />
-    <PackageVersion Include="MudBlazor" Version="8.7.0" />
+    <PackageVersion Include="MudBlazor" Version="8.5.0" />
     <PackageVersion Include="Polly" Version="8.5.2" />
     <PackageVersion Include="Polly.Extensions.Http" Version="3.0.0" />
     <PackageVersion Include="ReferenceTrimmer" Version="3.3.11" />
