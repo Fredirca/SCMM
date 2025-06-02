@@ -14,11 +14,10 @@
             <MudSpacer />
             @if (Item != null && PinnedAction != null)
             {
-                <MudToggleIconButton Toggled="IsActionPinned" ToggledChanged="TogglePinnedAction"
-                                     Title="Bookmark this item" ToggledTitle="Remove this bookmark"
+                <MudToggleIconButton Toggled="IsActionPinned" ToggledChanged="TogglePinnedAction" title="Toogle item bookmark"
                                      Icon="far fa-bookmark" ToggledIcon="fas fa-bookmark"
                                      Size="MudBlazor.Size.Small" ToggledSize="MudBlazor.Size.Small"
-                                     Class="ma-1 mx-4" DisableRipple="true" Disabled="@State.IsPrerendering" />
+                                     Class="ma-1 mx-4" Ripple="false" Disabled="@State.IsPrerendering" />
             }
         </div>
     </TitleContent>
@@ -50,14 +49,12 @@
 
     private bool IsActionPinned { get; set; }
 
-    protected override void OnConfigure(ResponsiveDialogOptions options)
+    protected override ResponsiveDialogOptions DialogOptions => new ResponsiveDialogOptions()
     {
-        options.FullscreenBreakpoint = MudBlazor.Breakpoint.Md;
-        options.MaxWidth = MudBlazor.MaxWidth.ExtraLarge;
-        options.FullWidth = true;
-        options.CloseButton = true;
-    }
-    
+        FullscreenBreakpoint = Breakpoint.Md,
+        MaxWidth = MaxWidth.ExtraLarge
+    };
+
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();

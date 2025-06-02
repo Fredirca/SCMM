@@ -121,7 +121,7 @@
 
     private void ShowStackCombinerDialog()
     {
-        Dialogs.Show<ItemStackCombinerDialog>(null, parameters: new DialogParameters()
+        _ = Dialogs.ShowAsync<ItemStackCombinerDialog>(null, parameters: new DialogParameters()
         {
             ["SteamId"] = SteamId,
             ["Item"] = Item
@@ -130,7 +130,7 @@
 
     private void ShowStackSplitterDialog()
     {
-        Dialogs.Show<ItemStackSplitterDialog>(null, parameters: new DialogParameters()
+        _ = Dialogs.ShowAsync<ItemStackSplitterDialog>(null, parameters: new DialogParameters()
         {
             ["SteamId"] = SteamId,
             ["Item"] = Item

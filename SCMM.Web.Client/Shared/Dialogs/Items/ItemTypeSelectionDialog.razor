@@ -7,7 +7,7 @@
         <MudText Typo="MudBlazor.Typo.h6" Color="MudBlazor.Color.Default">Select an item</MudText>
     </TitleContent>
     <DialogContent>
-        <MudGrid Spacing="2" Class="mb-4">
+        <MudGrid Class="mb-4">
             @if (ItemTypesGroups != null)
             {
                 @foreach (var itemGroup in ItemTypesGroups.OrderBy(x => x.Name))
@@ -44,13 +44,12 @@
     [Parameter]
     public IEnumerable<ItemTypeGroupDTO> ItemTypesGroups { get; set; }
 
-    protected override void OnConfigure(ResponsiveDialogOptions options)
+    protected override ResponsiveDialogOptions DialogOptions => new ResponsiveDialogOptions()
     {
-        options.FullscreenBreakpoint = MudBlazor.Breakpoint.Md;
-        options.MaxWidth = MudBlazor.MaxWidth.Medium;
-        options.CloseButton = true;
-    }
-    
+        FullscreenBreakpoint = Breakpoint.Md,
+        MaxWidth = MaxWidth.Medium
+    };
+
     protected override bool ShouldRender() => false;
 
 }

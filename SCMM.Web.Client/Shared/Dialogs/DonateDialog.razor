@@ -13,7 +13,7 @@
         <MudText Typo="MudBlazor.Typo.body2" Color="MudBlazor.Color.Secondary">
             <span>If you found it useful and would like to do something to say thanks, any of the below really helps out.</span>
         </MudText>
-        <MudList Clickable="true" DisablePadding="true" DisableGutters="true" Class="my-2 mx-n6">
+        <MudList T="string" Padding="false" Gutters="false" Class="my-2 mx-n6">
             <MudListItem OnClick="@(() => ExternalNavigationManager.NavigateToNewTabAsync("https://trustpilot.com/review/scmm.app"))">
                 <div class="d-flex flex-column align-start justify-start mx-6">
                     <img src="/images/trust-pilot-white.svg" alt="Write a review on Trustpilot" style="height:2em" />
@@ -49,13 +49,12 @@
 
 @code {
 
-    protected override void OnConfigure(ResponsiveDialogOptions options)
+    protected override ResponsiveDialogOptions DialogOptions => new ResponsiveDialogOptions()
     {
-        options.FullscreenBreakpoint = MudBlazor.Breakpoint.Xs;
-        options.MaxWidth = MudBlazor.MaxWidth.ExtraSmall;
-        options.CloseButton = true;
-    }
-    
+        FullscreenBreakpoint = Breakpoint.Xs,
+        MaxWidth = MaxWidth.ExtraSmall
+    };
+
     protected override bool ShouldRender() => false;
 
 }

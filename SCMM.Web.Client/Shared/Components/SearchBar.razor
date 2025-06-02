@@ -18,14 +18,14 @@
             <div class="d-flex algin-center">
                 <img src="@item.IconUrl" class="mr-2" style="width:2em; height:2em" />
                 <MudText Class="no-wrap my-1">@item.Description</MudText>
-                <MudChip Variant="MudBlazor.Variant.Text" Color="MudBlazor.Color.Secondary" Size="MudBlazor.Size.Small" Class="no-wrap ml-2">@item.Type</MudChip>
+                <MudChip T="string" Variant="MudBlazor.Variant.Text" Color="MudBlazor.Color.Secondary" Size="MudBlazor.Size.Small" Class="no-wrap ml-2">@item.Type</MudChip>
             </div>
         </ItemTemplate>
         <ItemSelectedTemplate Context="item">
             <div class="d-flex algin-center">
                 <img src="@item.IconUrl" class="mr-2" style="width:2em; height:2em" />
                 <MudText Class="no-wrap my-1">@item.Description</MudText>
-                <MudChip Variant="MudBlazor.Variant.Text" Color="MudBlazor.Color.Secondary" Size="MudBlazor.Size.Small" Class="no-wrap ml-2">@item.Type</MudChip>
+                <MudChip T="string" Variant="MudBlazor.Variant.Text" Color="MudBlazor.Color.Secondary" Size="MudBlazor.Size.Small" Class="no-wrap ml-2">@item.Type</MudChip>
             </div>
         </ItemSelectedTemplate>
     </MudAutocomplete>
@@ -74,7 +74,7 @@
         return Task.CompletedTask;
     }
 
-    private async Task<IEnumerable<SearchResultDTO>> SearchAsync(string value)
+    private async Task<IEnumerable<SearchResultDTO>> SearchAsync(string value, CancellationToken cancellationToken)
     {
         try
         {
@@ -100,7 +100,7 @@
         switch (type)
         {
             case "List":
-                Dialogs.Show<ViewItemListDialog>(null, parameters: new DialogParameters()
+                _ = Dialogs.ShowAsync<ViewItemListDialog>(null, parameters: new DialogParameters()
                 {
                     ["ListName"] = description,
                     ["ListUrl"] = url,
@@ -110,7 +110,7 @@
                 break;
 
             case "Type":
-                Dialogs.Show<ViewItemListDialog>(null, parameters: new DialogParameters()
+                _ = Dialogs.ShowAsync<ViewItemListDialog>(null, parameters: new DialogParameters()
                 {
                     ["ListName"] = $"All {description.Pluralise()}",
                     ["ListUrl"] = url,
@@ -121,7 +121,7 @@
                 break;
 
             case "Collection":
-                Dialogs.Show<ViewItemCollectionDialog>(null, parameters: new DialogParameters()
+                _ = Dialogs.ShowAsync<ViewItemCollectionDialog>(null, parameters: new DialogParameters()
                 {
                     ["CollectionName"] = $"{description} Collection",
                     ["CollectionUrl"] = url
@@ -129,7 +129,7 @@
                 break;
 
             case "Item":
-                Dialogs.Show<ViewItemDetailsDialog>(null, parameters: new DialogParameters()
+                _ = Dialogs.ShowAsync<ViewItemDetailsDialog>(null, parameters: new DialogParameters()
                 {
                     ["ItemName"] = description,
                     ["ItemUrl"] = url

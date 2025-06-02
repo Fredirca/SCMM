@@ -11,7 +11,7 @@
 <MudDialog>
     <TitleContent>
         <MudGrid>
-            <MudItem xs="12" Class="@($"d-flex flex-wrap {(IsMediaSize(Breakpoint.MdAndUp) ? "pr-12" : null)}")">
+            <MudItem xs="12" Class="d-flex flex-wrap pr-12">
                 <MudText Typo="MudBlazor.Typo.h6" Class="no-wrap">
                     @ListName
                     @if(List?.Items?.Any() == true)
@@ -22,16 +22,15 @@
                 <MudSpacer />
                 @if (List != null && PinnedAction != null)
                 {
-                    <MudToggleIconButton Toggled="IsActionPinned" ToggledChanged="TogglePinnedAction"
-                                         Title="Bookmark this list" ToggledTitle="Remove this bookmark"
+                    <MudToggleIconButton Toggled="IsActionPinned" ToggledChanged="TogglePinnedAction" title="Toggle list bookmark"
                                          Icon="far fa-bookmark" ToggledIcon="fas fa-bookmark"
                                          Size="MudBlazor.Size.Small" ToggledSize="MudBlazor.Size.Small"
-                                         Class="ma-1 ml-4 mr-0" DisableRipple="true" Disabled="@State.IsPrerendering" />
+                                         Class="ma-1 ml-4 mr-0" Ripple="false" Disabled="@State.IsPrerendering" />
                 }
                 @if (List?.Items?.Any() == true)
                 {
                     <MudMenu AnchorOrigin="Origin.BottomLeft" TransformOrigin="Origin.TopLeft"
-                             Dense="true" Class="@($"hover-darken mx-4 {(IsMediaSize(Breakpoint.SmAndDown) ? "mr-8" : null)}")" title="Change sort order">
+                             Dense="true" Class="hover-darken mx-4" title="Change sort order">
                         <ActivatorContent>
                             <MudText Typo="MudBlazor.Typo.h6" Color="MudBlazor.Color.Secondary">
                                 <i class="fas fa-fw fa-sort-alpha-down" />
@@ -59,7 +58,7 @@
                             }
                         </ChildContent>
                     </MudMenu>
-                    <MudTextField T="string" ValueChanged="@OnSearch" DebounceInterval="500" Placeholder="Filter items" FullWidth="@(IsMediaSize(Breakpoint.SmAndDown))" Class="flex-grow-0 mt-n4"
+                    <MudTextField T="string" ValueChanged="@OnSearch" DebounceInterval="500" Placeholder="Filter items" Class="flex-grow-0"
                                   Adornment="Adornment.Start" AdornmentIcon="fas fa-fw fa-filter mr-2" IconSize="MudBlazor.Size.Small" />
                 }
 			</MudItem>
@@ -77,7 +76,7 @@
                     @if (!String.IsNullOrEmpty(DemandUrl))
                     {
                         <MudItem xs="12">
-                            <MudGrid Spacing="1" Class="mb-4">
+                            <MudGrid Class="mb-4">
                                 <MudItem xs="12" md="6" lg="4" xl="3">
                                     <MudTooltip Text="The median (middle) price of all items in this list over the last 24hrs.">
                                         <dl>
@@ -231,13 +230,11 @@
 
     private bool IsActionPinned { get; set; }
 
-    protected override void OnConfigure(ResponsiveDialogOptions options)
+    protected override ResponsiveDialogOptions DialogOptions => new ResponsiveDialogOptions()
     {
-        options.FullscreenBreakpoint = MudBlazor.Breakpoint.Sm;
-        options.MaxWidth = MudBlazor.MaxWidth.Large;
-        options.FullWidth = true; // force item images to scale equally
-        options.CloseButton = true;
-    }
+        FullscreenBreakpoint = Breakpoint.Sm,
+        MaxWidth = MaxWidth.Large
+    };
 
     protected override async Task OnInitializedAsync()
     {

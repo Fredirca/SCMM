@@ -12,10 +12,22 @@
 @inject HttpClient Http
 @inject AppState State
 
-<MudGrid Spacing="2">
+<MudGrid>
     
     @if (State.App?.FeatureFlags.HasFlag(SteamAppFeatureFlags.ItemWorkshopAcceptedTracking) == true)
     {
+        @*
+            TODO:  Fix this...
+            Error: System.NullReferenceException: Object reference not set to an instance of an object.
+                   at Syncfusion.Blazor.Charts.Internal.ChartDataLabelRenderer.CalculateRenderTreeBuilderOptions(ChartSeries series, ChartDataLabel dataLabel)
+                   at Syncfusion.Blazor.Charts.Internal.ChartDataLabelRenderer.HandleChartSizeChange(Rect rect)
+                   at Syncfusion.Blazor.Charts.Internal.ChartSeriesRendererContainer.HandleChartSizeChange(Rect rect)
+                   at Syncfusion.Blazor.Charts.SfChart.UpdateRenderers(Boolean skip)
+                   at Syncfusion.Blazor.Charts.ChartAxis.UpdateAxisProperties(String key, Object keyValue)
+                   at Syncfusion.Blazor.Charts.ChartAxisScrollbarSettings.OnParametersSet()
+                   at Microsoft.AspNetCore.Components.ComponentBase.CallOnParametersSetAsync()
+                   at Microsoft.AspNetCore.Components.Rendering.ComponentState.SupplyCombinedParameters(ParameterView directAndCascadingParameters)
+
         <MudItem xs="12">
             <StatisticsPanel Icon="fas fa-fw fa-tshirt mr-1" Title="Most Accepted Item Type" Subtitle="Which item types have the most number of accepted in-game items?" Dense="true">
                 <ActionContent>
@@ -72,7 +84,7 @@
                                         </ChartDataLabel>
                                     </ChartMarker>
                                 </ChartSeries>
-                                *@
+                                *@@*
                                 <ChartSeries DataSource="@ItemTypeDistributionChartData" XName="ItemType" YName="Accepted" Name="Accepted Items" Type="ChartSeriesType.Column">
                                     <ChartMarker>
                                         <ChartDataLabel Visible="true" EnableRotation="true" Position="Syncfusion.Blazor.Charts.LabelPosition.Top">
@@ -88,7 +100,8 @@
                     }
                 </ChildContent>
             </StatisticsPanel>
-        </MudItem>   
+        </MudItem>
+        *@
     }
 
     @if (State.App?.FeatureFlags.HasFlag(SteamAppFeatureFlags.ItemWorkshop) == true)
@@ -261,7 +274,7 @@
 
     private void ShowItemEstimatedSupplyDialog(ItemSupplyStatisticDTO item)
     {
-        Dialogs.Show<ViewItemEstimatedSupplyDialog>(null, parameters: new DialogParameters()
+        _ = Dialogs.ShowAsync<ViewItemEstimatedSupplyDialog>(null, parameters: new DialogParameters()
         {
             ["ItemName"] = item.Name,
             ["ItemUrl"] = $"/api/item/{item.Id}"
@@ -270,7 +283,7 @@
 
     private void ShowItemCollectionDialog(DashboardAssetCollectionDTO collection)
     {
-        Dialogs.Show<ViewItemCollectionDialog>(null, parameters: new DialogParameters()
+        _ = Dialogs.ShowAsync<ViewItemCollectionDialog>(null, parameters: new DialogParameters()
         {
             ["CollectionName"] = $"{collection.Name} Collection",
             ["CollectionUrl"] = $"api/item/collection/{collection.Name}?creatorId={collection.CreatorId}"
@@ -279,7 +292,7 @@
 
     private void ShowProfileItemsDialog(ProfileAcceptedItemsStatisticDTO profile)
     {
-        Dialogs.Show<ViewItemListDialog>(null, parameters: new DialogParameters()
+        _ = Dialogs.ShowAsync<ViewItemListDialog>(null, parameters: new DialogParameters()
         {
             ["ListName"] = $"Items by {profile.Name}",
             ["ListUrl"] = $"api/item?creatorId={profile.SteamId}&count=-1",

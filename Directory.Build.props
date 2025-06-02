@@ -32,5 +32,14 @@
 		<WarningsAsErrors>$(WarningsAsErrors);IDE0005;RT0000;RT0001;RT0002;RT0003</WarningsAsErrors>
 		<MSBuildWarningsAsErrors>$(WarningsAsErrors)</MSBuildWarningsAsErrors>
 	</PropertyGroup>
+	
+	<!--
+	    Report unrecognised parameters on MudBlazor components as errors
+	-->
+	<PropertyGroup>
+		<MudAllowedAttributePattern>LowerCase</MudAllowedAttributePattern>
+		<WarningsAsErrors>$(WarningsAsErrors);MUD0002;</WarningsAsErrors>
+		<MSBuildWarningsAsErrors>$(WarningsAsErrors)</MSBuildWarningsAsErrors>
+	</PropertyGroup>
 
 </Project>

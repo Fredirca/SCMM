@@ -52,14 +52,14 @@ else
     @if (SelectedInventoryItems != null && SelectedInventoryItems.Any(x => x.Value) && State.Is(SteamId))
     {
         <div class="multi-select-actions mud-appbar pa-2">
-            <MudStack Spacing="2" Justify="Justify.Center" AlignItems="AlignItems.Center">
+            <MudStack Justify="Justify.Center" AlignItems="AlignItems.Center">
                 <MudText Typo="Typo.body2">
                     @{
                         var selectedItemTotals = GetSelectedItemsTotals();
                     }
                     <span><strong>@selectedItemTotals.Item1</strong> item(s) selected, worth a total of <strong>@State.Currency.ToPriceString(selectedItemTotals.Item2)</strong></span>
                 </MudText>
-                <MudStack Spacing="2" Row="true" Justify="Justify.Center" AlignItems="AlignItems.Center">
+                <MudStack Row="true" Justify="Justify.Center" AlignItems="AlignItems.Center">
                     <MudButton OnClick="ClearItemSelection" Variant="Variant.Outlined" Color="Color.Secondary" Class="mx-1" Disabled="State.IsPrerendering">Clear</MudButton>
                     <MudButton OnClick="SellSelectedItemsOnMarket" Variant="Variant.Filled" Color="Color.Success" StartIcon="fa fa-fw fa-hand-holding-usd" Class="mx-1" Disabled="State.IsPrerendering">Multi-sell</MudButton>
                 </MudStack>
@@ -128,7 +128,7 @@ else
         }
         catch (Exception ex)
         {
-            Logger.LogError(ex, $"Error fetching inventory items for '{SteamId}'");
+            Logger.LogError(ex, $"Error fetching inventory items");
             InventoryItems = null;
             LoadingError = ex;
             throw;

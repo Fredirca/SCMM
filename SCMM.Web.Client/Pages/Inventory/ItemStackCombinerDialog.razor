@@ -14,8 +14,8 @@
         </MudText>
     </TitleContent>
     <DialogContent>
-        <MudAlert Severity="Severity.Warning" Typo="MudBlazor.Typo.subtitle2" Color="MudBlazor.Color.Warning" Class="mud-alert-outlined-warning">
-            <span><strong>This action requires your <MudLink Href="https://steamcommunity.com/dev/apikey" Typo="MudBlazor.Typo.subtitle2" Color="MudBlazor.Color.Warning" Underline="Underline.Hover" Target="_blank">Steam API Key</MudLink> to modify your inventory items.</strong> Make sure you fully understand the implications of sharing your API Key with a 3rd party before proceeding. Read our <MudLink Href="/privacy" Typo="MudBlazor.Typo.subtitle2" Color="MudBlazor.Color.Warning" Underline="Underline.Hover" Target="_blank">Privacy Policy</MudLink> for more info.</span>
+        <MudAlert Severity="Severity.Warning" Class="mud-alert-outlined-warning">
+            <span><strong>This action requires your <MudLink Href="https://steamcommunity.com/dev/apikey" Typo="MudBlazor.Typo.subtitle2" Color="MudBlazor.Color.Warning" Underline="Underline.Hover" Target="_blank">Steam API Key</MudLink> to modify inventory items.</strong> Make sure you fully understand the implications of sharing your API Key with a 3rd party before proceeding. Read our <MudLink Href="/privacy" Typo="MudBlazor.Typo.subtitle2" Color="MudBlazor.Color.Warning" Underline="Underline.Hover" Target="_blank">Privacy Policy</MudLink> for more info.</span>
         </MudAlert>
         <div class="d-flex flex-row flex-wrap align-center justify-center pa-4">
             <div class="d-flex flex-wrap flex-row align-start justify-center mud-paper-inverted">
@@ -52,7 +52,7 @@
                         @if (!stack.TradableAndMarketable)
                         {
                             <MudTooltip Text="This item is currently untradeable and unmarketable. If you add this item to the stack, the stack will also become trade locked">
-                                <MudChip Variant="MudBlazor.Variant.Text" Color="@(SelectedStacks.Contains(stack) ? MudBlazor.Color.Warning : MudBlazor.Color.Default)" 
+                                <MudChip T="string" Variant="MudBlazor.Variant.Text" Color="@(SelectedStacks.Contains(stack) ? MudBlazor.Color.Warning : MudBlazor.Color.Default)" 
                                             Size="MudBlazor.Size.Small" Icon="fas fa-fw fa-ban" Text="Trade Locked" Class="ml-2" Disabled="@(!SelectedStacks.Contains(stack))" />
                             </MudTooltip>
                         }
@@ -87,7 +87,7 @@
                         @if (SelectedStacks.Any(x => !x.TradableAndMarketable))
                         {
                             <MudTooltip Text="At least one selected item is untradeable and unmarketable in your inventory. The trade lock will be caried over to this combined item stack">
-                                <MudChip Variant="MudBlazor.Variant.Text" Color="MudBlazor.Color.Warning" Size="MudBlazor.Size.Small" Icon="fas fa-fw fa-ban" Text="Trade Locked" Class="ml-2" />
+                                <MudChip T="string" Variant="MudBlazor.Variant.Text" Color="MudBlazor.Color.Warning" Size="MudBlazor.Size.Small" Icon="fas fa-fw fa-ban" Text="Trade Locked" Class="ml-2" />
                             </MudTooltip>
                         }
                     </MudPaper>
@@ -102,7 +102,7 @@
             </div>
         </div>
         <MudTextField T="string" @bind-Text="@SteamApiKey" DebounceInterval="500" Margin="MudBlazor.Margin.None" Variant="MudBlazor.Variant.Outlined" FullWidth="true" 
-                      Label="Steam API Key" Placeholder="Paste your Steam API key here..." HelperText="Click on the question mark icon to view and manage your Steam API Key"
+                      Label="Steam API Key" Placeholder="Paste your Steam API key here..." HelperText="Click on the question mark icon above to find your Steam API Key"
                       Adornment="Adornment.End" AdornmentIcon="fa fa-fw fa-question-circle" OnAdornmentClick="@(() => ExternalNavigationManager.NavigateToNewTabAsync("https://steamcommunity.com/dev/apikey"))" />
     </DialogContent>
     <DialogActions>
@@ -137,20 +137,18 @@
 
     private bool IsCombining { get; set; }
 
+    protected override ResponsiveDialogOptions DialogOptions => new ResponsiveDialogOptions()
+    {
+        FullscreenBreakpoint = Breakpoint.Sm,
+        MaxWidth = MaxWidth.Small
+    };
+
     protected override void OnInitialized()
     {
         if (Item != null)
         {
             SelectedStacks = new List<ProfileInventoryItemDescriptionStackDTO>(Item.Stacks);
         }
-    }
-
-    protected override void OnConfigure(ResponsiveDialogOptions options)
-    {
-        options.FullscreenBreakpoint = MudBlazor.Breakpoint.Sm;
-        options.MaxWidth = MudBlazor.MaxWidth.Small;
-        options.FullWidth = true; // force item images to scale equally
-        options.CloseButton = true;
     }
 
     private void ToggleItemStackSelection(ProfileInventoryItemDescriptionStackDTO stack)

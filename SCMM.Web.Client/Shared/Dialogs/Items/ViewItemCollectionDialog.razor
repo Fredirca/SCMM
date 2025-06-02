@@ -39,11 +39,10 @@
                 <MudSpacer />
                 @if (Collection != null && PinnedAction != null)
                 {
-                    <MudToggleIconButton Toggled="IsActionPinned" ToggledChanged="TogglePinnedAction"
-                                         Title="Bookmark this item collection" ToggledTitle="Remove this bookmark"
+                    <MudToggleIconButton Toggled="IsActionPinned" ToggledChanged="TogglePinnedAction" title="Toggle item collection bookmark"
                                          Icon="far fa-bookmark" ToggledIcon="fas fa-bookmark"
                                          Size="MudBlazor.Size.Small" ToggledSize="MudBlazor.Size.Small"
-                                         Class="ma-1 ml-4 mr-0" DisableRipple="true" Disabled="@State.IsPrerendering" />
+                                         Class="ma-1 ml-4 mr-0" Ripple="false" Disabled="@State.IsPrerendering" />
                 }
                 <MudMenu AnchorOrigin="Origin.BottomLeft" TransformOrigin="Origin.TopLeft" 
                          Dense="true" Class="hover-darken align-self-start mx-4 " title="Change sort order">
@@ -139,14 +138,12 @@
 
     private bool IsActionPinned { get; set; }
 
-    protected override void OnConfigure(ResponsiveDialogOptions options)
+    protected override ResponsiveDialogOptions DialogOptions => new ResponsiveDialogOptions()
     {
-        options.FullscreenBreakpoint = MudBlazor.Breakpoint.Sm;
-        options.MaxWidth = MudBlazor.MaxWidth.Large;
-        options.FullWidth = true; // force item images to scale equally
-        options.CloseButton = true;
-    }
-    
+        FullscreenBreakpoint = Breakpoint.Sm,
+        MaxWidth = MaxWidth.Large
+    };
+
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();

@@ -10,7 +10,7 @@
 
 <PageContainer Title="@($"{State?.App?.Name} Skin Workshop")">
 
-    <MudGrid Spacing="2">
+    <MudGrid>
         <MudItem xs="12" sm="6" md="4" lg="4" xl="4">
             <MudTextField T="string" Value="@Filter" ValueChanged="@OnSearch" DebounceInterval="500" Label="Search" Placeholder="Search for an item..." 
                           Variant="MudBlazor.Variant.Outlined" Margin="MudBlazor.Margin.None" FullWidth="true" Class="mud-input-transparent ma-0" Disabled="State.IsPrerendering" />
@@ -46,7 +46,7 @@
                 @foreach (var group in WorkshopFileGroups)
                 {
                     <MudItem xs="12">
-                        <MudStack Row="true" Spacing="4" AlignItems="AlignItems.Center" Justify="Justify.FlexStart">
+                        <MudStack Row="true" AlignItems="AlignItems.Center" Justify="Justify.FlexStart">
                             <MudStack Row="true" Spacing="0" AlignItems="AlignItems.Center" Justify="Justify.FlexStart" Class="flex-wrap">
                                 <MudText Typo="Typo.h6" Color="Color.Default" Class="mr-2">
                                     <span>Week @group.Key</span>

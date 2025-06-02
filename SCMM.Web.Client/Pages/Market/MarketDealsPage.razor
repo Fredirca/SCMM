@@ -15,10 +15,7 @@
 @inject AppState State
 
 <PageContainer Title="@($"{State?.App?.Name} Market Deals")">
-    <MudAlert Icon="fa fa-fw fa-exclamation-triangle" Severity="Severity.Warning" Variant="MudBlazor.Variant.Text" Class="mud-alert-outlined-warning">
-        <span>Always double check prices manually before buying or selling from a third-party market. Prices shown here update once every hour and may no longer be available.</span>
-    </MudAlert>
-    <MudTabs Elevation="0" ActivePanelIndex="TabIndex" ActivePanelIndexChanged="OnSelectedTabChanged" KeepPanelsAlive="false" Class="mud-tabs-transparent">
+    <MudTabs ActivePanelIndex="TabIndex" ActivePanelIndexChanged="OnSelectedTabChanged" KeepPanelsAlive="false" Class="mud-tabs-transparent">
         <ChildContent>
 
             <MudTabPanel Icon="fas fa-fw fa-search-dollar mr-2" Text="Cheapest Offers" Disabled="State.IsPrerendering">
@@ -102,7 +99,7 @@
                                                     <MudText Typo="Typo.body2">@item.Name</MudText>
                                                     @if (item.IsBeingManipulated)
                                                     {
-                                                        <MudChip Variant="MudBlazor.Variant.Text" Color="MudBlazor.Color.Warning" Size="MudBlazor.Size.Small" Icon="fas fa-fw fa-exclamation-triangle" Text="Price Manipulation" title="@($"It is suspected that this items price is being manipulated on the market because {item.ManipulationReason.FirstCharToLower()}")" Class="ml-2" />
+                                                    <MudChip T="string" Variant="MudBlazor.Variant.Text" Color="MudBlazor.Color.Warning" Size="MudBlazor.Size.Small" Icon="fas fa-fw fa-exclamation-triangle" Text="Price Manipulation" title="@($"It is suspected that this items price is being manipulated on the market because {item.ManipulationReason.FirstCharToLower()}")" Class="ml-2" />
                                                     }
                                                 </div>
                                             </td>
@@ -127,16 +124,16 @@
                                                             <span>Save @State.Currency.ToPriceString(item.DiscountAmount)</span>
                                                         </TooltipContent>
                                                         <ChildContent>
-                                                            <MudChip Variant="Variant.Text" Color="@(item.IsBeingManipulated ? Color.Warning : ((item.DiscountAmount > 0) ? Color.Success : Color.Secondary))" Size="@Size.Small" Text="@($"-{item.DiscountAmount.ToPercentageString(item.ReferemcePrice) ?? "0%"}")" />
+                                                            <MudChip T="string" Variant="Variant.Text" Color="@(item.IsBeingManipulated ? Color.Warning : ((item.DiscountAmount > 0) ? Color.Success : Color.Secondary))" Size="@Size.Small" Text="@($"-{item.DiscountAmount.ToPercentageString(item.ReferemcePrice) ?? "0%"}")" />
                                                         </ChildContent>
                                                     </MudTooltip>
                                                     @if (item.BuySupplyAvailable > 0)
                                                     {
-                                                        <MudChip Variant="Variant.Text" Color="Color.Secondary" Size="@Size.Small" Text="@($"{item.BuySupplyAvailable.Value.ToQuantityString()} available")" />
+                                                        <MudChip T="string" Variant="Variant.Text" Color="Color.Secondary" Size="@Size.Small" Text="@($"{item.BuySupplyAvailable.Value.ToQuantityString()} available")" />
                                                     }
                                                     @if (GetTimeSinceLastMarketPriceUpdate(item.BuyFrom) != null)
                                                     {
-                                                        <MudChip Variant="Variant.Text" Color="Color.Secondary" Size="@Size.Small" Text="@GetTimeSinceLastMarketPriceUpdate(item.BuyFrom).Value.ToDurationString(maxGranularity: 2, prefix: "Checked", suffix: "ago")" />
+                                                        <MudChip T="string" Variant="Variant.Text" Color="Color.Secondary" Size="@Size.Small" Text="@GetTimeSinceLastMarketPriceUpdate(item.BuyFrom).Value.ToDurationString(maxGranularity: 2, prefix: "Checked", suffix: "ago")" />
                                                     }
                                                 </MudText>
                                             </td>
@@ -268,7 +265,7 @@
                                                         <MudText Typo="Typo.body2">@item.Name</MudText>
                                                         @if (item.IsBeingManipulated)
                                                         {
-                                                            <MudChip Variant="MudBlazor.Variant.Text" Color="MudBlazor.Color.Warning" Size="MudBlazor.Size.Small" Icon="fas fa-fw fa-exclamation-triangle" Text="Price Manipulation" title="@($"It is suspected that this items price is being manipulated on the market because {item.ManipulationReason.FirstCharToLower()}")" Class="ml-2" />
+                                                            <MudChip T="string" Variant="MudBlazor.Variant.Text" Color="MudBlazor.Color.Warning" Size="MudBlazor.Size.Small" Icon="fas fa-fw fa-exclamation-triangle" Text="Price Manipulation" title="@($"It is suspected that this items price is being manipulated on the market because {item.ManipulationReason.FirstCharToLower()}")" Class="ml-2" />
                                                         }
                                                     </div>
                                                 </td>
@@ -290,11 +287,11 @@
                                                         }
                                                         @if (item.BuySupplyAvailable > 0)
                                                         {
-                                                            <MudChip Variant="Variant.Text" Color="Color.Secondary" Size="@Size.Small" Text="@($"{item.BuySupplyAvailable.Value.ToQuantityString()} available")" />
+                                                            <MudChip T="string" Variant="Variant.Text" Color="Color.Secondary" Size="@Size.Small" Text="@($"{item.BuySupplyAvailable.Value.ToQuantityString()} available")" />
                                                         }
                                                         @if (GetTimeSinceLastMarketPriceUpdate(item.BuyFrom) != null)
                                                         {
-                                                            <MudChip Variant="Variant.Text" Color="Color.Secondary" Size="@Size.Small" Text="@GetTimeSinceLastMarketPriceUpdate(item.BuyFrom).Value.ToDurationString(maxGranularity: 2, prefix: "Checked", suffix: "ago")" />
+                                                            <MudChip T="string" Variant="Variant.Text" Color="Color.Secondary" Size="@Size.Small" Text="@GetTimeSinceLastMarketPriceUpdate(item.BuyFrom).Value.ToDurationString(maxGranularity: 2, prefix: "Checked", suffix: "ago")" />
                                                         }
                                                     </MudText>
                                                 </td>
@@ -313,7 +310,7 @@
                                                             }
                                                             <span class="mud-secondary-text"> for a</span> <span class="@(item.IsBeingManipulated ? "mud-warning-text" : "mud-success-text")">@State.Currency.ToPriceString(item.SellProfit)</span>
                                                         </span>
-                                                        <MudChip Variant="Variant.Text" Color="@(item.IsBeingManipulated ? Color.Warning : Color.Success)" Size="@Size.Small" Text="@($"{item.SellProfit.ToPercentageString(item.BuyTotal) ?? "0%"}")" />
+                                                        <MudChip T="string" Variant="Variant.Text" Color="@(item.IsBeingManipulated ? Color.Warning : Color.Success)" Size="@Size.Small" Text="@($"{item.SellProfit.ToPercentageString(item.BuyTotal) ?? "0%"}")" />
                                                         <span><span class="mud-secondary-text">profit @(State.Profile.ItemIncludeMarketFees ? "after" : "before") fees</span></span>
                                                     </MudText>
                                                 </td>
@@ -347,7 +344,7 @@
             @if (State.App?.FeatureFlags.HasFlag(SteamAppFeatureFlags.AssetDescriptionFeatureCrafting) == true)
             {
                 <MudTabPanel Icon="fas fa-fw fa-hammer mr-2" Text="Crafting" Disabled="State.IsPrerendering">
-                    <MudGrid Space="2">
+                    <MudGrid>
 
                         <MudItem xs="12" xl="6">
                             <AnalyticsPanel Icon="fas fa-fw fa-box" Title="Containers" Subtitle="What is the cheapest way to aquire craftable containers?" Dense="true">
@@ -673,7 +670,7 @@
 
     private void ShowItemDetailsDialog(string itemName, string itemAssetDescriptionId)
     {
-        Dialogs.Show<ViewItemDetailsDialog>(null, parameters: new DialogParameters()
+        _ = Dialogs.ShowAsync<ViewItemDetailsDialog>(null, parameters: new DialogParameters()
         {
             ["ItemName"] = itemName,
             ["ItemUrl"] = $"/api/item/{itemAssetDescriptionId}",

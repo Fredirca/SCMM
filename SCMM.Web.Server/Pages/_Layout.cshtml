@@ -6,10 +6,6 @@
 @using SCMM.Web.Data.Models
 @model HostModel
 @inject IConfiguration Configuration
-@{
-    var runtime = Model.AppState.Runtime;
-    var renderMode = (Model.AppState.Runtime == Data.Models.RuntimeType.WebAssembly ? Microsoft.AspNetCore.Mvc.Rendering.RenderMode.WebAssemblyPrerendered : Microsoft.AspNetCore.Mvc.Rendering.RenderMode.ServerPrerendered);
-}
 <!DOCTYPE html>
 <html>
 <head>
@@ -29,9 +25,9 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" rel="stylesheet" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/jsoneditor/9.10.0/jsoneditor.min.css" integrity="sha512-brXxIa/fpMfluh8HUWyrNssKy/H0oRzA0HhmipgfVwbXPamMUTZn1jEsvoGGwJYCRpSx4idujdul4vFwWgPROA==" crossorigin="anonymous" referrerpolicy="no-referrer" rel="stylesheet" />
+    <link href="_content/MudBlazor/MudBlazor.min.css" rel="stylesheet" />
     <link href="_content/Syncfusion.Blazor.Themes/material-dark.css" rel="stylesheet" />
     <link href="_content/Syncfusion.Blazor.Themes/fluent-dark.css" rel="stylesheet" />
-    <link href="_content/MudBlazor/MudBlazor.min.css" rel="stylesheet" />
     <link href="/css/scmm-jsoneditor-theme.css" rel="stylesheet" />
     <link href="/css/scmm-mudblazor-theme.css" rel="stylesheet" />
     <link href="/css/scmm-preloader.css" rel="stylesheet" />
@@ -41,7 +37,7 @@
     <link href="@(Configuration.GetDataStoreUrl())/images/app/@(Model.AppId)/og.icon-512.png" rel="icon" type="image/png" />
     <link href="@(Configuration.GetDataStoreUrl())/images/app/@(Model.AppId)/og.icon-512.png" rel="apple-touch-icon" type="image/png" sizes="512x512" />
     
-    <component type="typeof(HeadOutlet)" render-mode="@renderMode" />
+    <component type="typeof(HeadOutlet)" render-mode="@Microsoft.AspNetCore.Mvc.Rendering.RenderMode.ServerPrerendered" />
 
 </head>
 <body>
@@ -50,8 +46,6 @@
         
         @RenderBody()
 
-@if (runtime == RuntimeType.Server)
-{
         <div id="blazor-error-ui" class="component-error-banner hidden pa-2">
             <div class="d-flex flex-row align-center">
                 <i class="fa fa-fw fa-bug mr-2"></i>
@@ -81,137 +75,16 @@
 
     </div>
 
-@if (runtime == RuntimeType.WebAssembly)
-{
-    <div id="blazor-preloader-ui" class="preloader">
-        <div id="wasm-unsupported" class="wasm-unsupported-root hidden">
-            <img src="images/webassembly.png" />
-            <p>
-                <strong>Your browser does not support WebAssembly (Wasm).</strong><br />
-                <span><a href="https://caniuse.com/wasm">https://caniuse.com/wasm</a></span>
-            </p>
-        </div>
-        <div id="blazor-loading" class="blazor-loading-root hidden">
-            <p class="preloader-animation">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" style="height: 8em; width: 8em;">
-                    <circle cx="50" cy="50" fill="none" stroke="#fff" stroke-width="5" r="35" stroke-dasharray="150 50">
-                        <animateTransform attributeName="transform" type="rotate" repeatCount="indefinite" dur="1s" values="0 50 50; 360 50 50" keyTimes="0;1"></animateTransform>
-                    </circle>
-                </svg>
-            </p>
-            <div id="preloader-progress" class="preloader-progress-bar-root hidden">
-                <div style="width:0%"></div>
-            </div>
-            <p>
-                <span>Initialising Blazor...</span>
-            </p>
-        </div>
-        <div id="blazor-load-error" class="blazor-load-error-root hidden">
-            <img src="images/blazor.png" style="filter: hue-rotate(90deg)" />
-            <p>
-                <strong>Blazor initialisation error.</strong><br />
-                <span>Try clearing your browse cache.</span>
-                <pre id="blazor-load-error-details"></pre>
-            </p>
-        </div>
-        <script type="text/javascript" nonce="@Context.GetNonce()">
-
-            function wasmIsSupported() {
-                try {
-                    if (typeof WebAssembly === "object" &&
-                        typeof WebAssembly.instantiate === "function") {
-                        const module = new WebAssembly.Module(Uint8Array.of(0x0, 0x61, 0x73, 0x6d, 0x01, 0x00, 0x00, 0x00));
-                        if (module instanceof WebAssembly.Module) {
-                            return new WebAssembly.Instance(module) instanceof WebAssembly.Instance;
-                        }
-                    }
-                } catch (e) {
-                }
-                return false;
-            }
-
-            if (wasmIsSupported()) {
-                document.getElementById("blazor-loading").style.display = "flex";
-            }
-            else {
-                document.getElementById("wasm-unsupported").style.display = "flex";
-            }
-
-        </script>
-        <script type="text/javascript" nonce="@Context.GetNonce()">
-
-            /* Start Blazor and report loading progress back to the UI */
-
-            let resourceIndex = 0;
-            let resourcesLoaded = [];
-            let progressBarElement = document.getElementById('preloader-progress');
-            let progressElement = progressBarElement.children[0];
-            document.addEventListener("DOMContentLoaded", function() {
-                if (wasmIsSupported()) {
-                    Blazor.start({
-
-                        loadBootResource: (type, name, defaultUri, integrity) => {
-                            if (type == "dotnetjs") {
-                                return defaultUri;
-                            }
-                                
-                            console.log(`Loading: '${type}', '${name}', '${defaultUri}', '${integrity}'`);
-                            var fetchResource = fetch(defaultUri, {
-                                cache: 'no-cache',
-                                integrity: integrity
-                            });
-
-                            resourcesLoaded.push(fetchResource);
-                            fetchResource.then((r) => {
-                                resourceIndex++;
-                                var resourcesTotal = resourcesLoaded.length;
-                                var progressValue = parseInt((resourceIndex * 100.0) / resourcesTotal);
-                                var progressText = progressValue + '%';
-                                if (progressValue > 0 && progressValue <= 100) {
-                                    progressBarElement.style.display = 'block';
-                                    progressElement.style.width = progressText;
-                                    //progressElement.innerText = progressText;
-                                }
-                            });
-
-                            return fetchResource;
-                        }
-
-                    }).then(function () {
-                        document.getElementById("blazor-preloader-ui").style.display = "none";
-                    }).catch(function (err) {
-                        console.log(`Blazor startup has failed`, err);
-                        document.getElementById("app").style.display = "none";
-                        document.getElementById("blazor-loading").style.display = "none";
-                        document.getElementById("blazor-load-error").style.display = "flex";
-                        if (err) {
-                            document.getElementById("blazor-load-error-details").innerHTML = err;
-                        }
-                    });
-                }
-            });
-
-        </script>
-    </div>
-}
-
     <persist-component-state />
-
-@if (runtime == RuntimeType.Server)
-{
-    <script src="_framework/blazor.server.js"></script>
-}
-else
-{
-    <script src="_framework/blazor.webassembly.js" autostart="false"></script>
-}
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.20/lodash.min.js" integrity="sha512-90vH1Z83AJY9DmlWa8WkjkV79yfS2n2Oxhsi2dZbIv0nC4E6m5AbH8Nh156kkM7JePmqD6tcZsfad1ueoaovww==" crossorigin="anonymous" type="text/javascript"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jsoneditor/9.10.0/jsoneditor.min.js" integrity="sha512-ruQAvFENqNvZOgUR7kldDYoQQLXs/CTx/ZJJhDpGKB5iqrhdq92S+P6sYsl6HCE+xTIFDhDo2FiZ3PJGKPWjWg==" crossorigin="anonymous" referrerpolicy="no-referrer" type="text/javascript"></script>
-    <script src="_content/Syncfusion.Blazor.Core/scripts/syncfusion-blazor.min.js" type="text/javascript"></script>
     <script src="_content/MudBlazor/MudBlazor.min.js" type="text/javascript"></script>
+    <script src="_content/Syncfusion.Blazor.Core/scripts/syncfusion-blazor.min.js" type="text/javascript"></script>
     <script src="/js/azure-storage.blob.min.js" type="text/javascript"></script>
     <script src="/js/interops.js" type="text/javascript"></script>
-    
+
+    <script src="_framework/blazor.server.js" type="text/javascript"></script>
+
 </body>
 </html>

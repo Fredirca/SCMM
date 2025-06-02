@@ -12,7 +12,7 @@
 @inject AppState State
 
 <PageContainer Title="@($"{State?.App?.Name} Item Definition Archives")">
-    <MudGrid Spacing="2">
+    <MudGrid>
         <MudItem xs="12">
             <MudText Typo="Typo.body1">
                 <span>Item definition archives are the game data files that contain the raw definitions for each @(State?.App?.Name ?? "game") item that can be acquired through Steam. Typically each item definition archives adds/removes/changes one or many in-game items.</span>
@@ -32,22 +32,22 @@
             }
             else if (ItemDefinitionArchivesList.Any())
             {
-                <MudExpansionPanels MultiExpansion="true" Dense="true" DisableGutters="true">
+                <MudExpansionPanels MultiExpansion="true" Dense="true" Gutters="false">
                     @foreach (var itemDefinitionArchive in ItemDefinitionArchivesList)
                     {
-                        <MudExpansionPanel IsExpandedChanged="@((x) => OnExpandedChanged(itemDefinitionArchive, x))" Disabled="itemDefinitionArchive.PreviousDigest == null">
+                        <MudExpansionPanel ExpandedChanged="@((x) => OnExpandedChanged(itemDefinitionArchive, x))" Disabled="itemDefinitionArchive.PreviousDigest == null">
                             <TitleContent>
                                 <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Start">
-                                    <MudStack Spacing="1" AlignItems="AlignItems.Start">
+                                    <MudStack AlignItems="AlignItems.Start">
                                         <MudText Typo="MudBlazor.Typo.body1">
                                             <i class="fas fa-fw fa-archive mr-1"></i>
                                             <span>@itemDefinitionArchive.Digest</span>
                                         </MudText>
-                                        <MudStack Spacing="2" Row="true" AlignItems="AlignItems.Center">
+                                        <MudStack Row="true" AlignItems="AlignItems.Center">
                                             <MudButton OnClick="@(() => DownloadArchive(itemDefinitionArchive))" Size="Size.Small" Color="Color.Primary" Variant="Variant.Filled">
                                                 <span><i class="fa fa-fw fa-download mr-1"></i> Download</span>
                                             </MudButton>
-                                            <MudChip Color="Color.Secondary" Size="Size.Small">@(itemDefinitionArchive.Info.ItemCount.ToQuantityString()) item(s)</MudChip>
+                                            <MudChip T="string" Color="Color.Secondary" Size="Size.Small">@(itemDefinitionArchive.Info.ItemCount.ToQuantityString()) item(s)</MudChip>
                                             <MudText Color="Color.Secondary" Typo="Typo.body2">
                                                 <span>This change </span>
                                                 @if (itemDefinitionArchive.DiffItemCount != 0)
@@ -65,7 +65,7 @@
                                     </MudStack>
                                     @if (itemDefinitionArchive.Info.Timestamp != null)
                                     {
-                                        <MudStack Spacing="1" AlignItems="AlignItems.End">
+                                        <MudStack AlignItems="AlignItems.End">
                                             <MudText Typo="MudBlazor.Typo.body1" Class="mx-4">@(itemDefinitionArchive.Info.Timestamp.Value.ToString("yyyy MMMM dd, HH:mm:ss"))</MudText>
                                             <MudText Typo="MudBlazor.Typo.body2" Color="Color.Secondary" Class="mx-4">@((DateTimeOffset.Now - itemDefinitionArchive.Info.Timestamp.Value).ToDurationString(maxGranularity: 2, suffix: "ago"))</MudText>
                                         </MudStack>
@@ -217,8 +217,7 @@
                         Snackbar.Add($"Unable to load item definition archive. {ex.Message}", MudBlazor.Severity.Error);
                     }
                 })
-                .ContinueWith(t => StateHasChanged())
-                .AndForget();
+                .ContinueWith(t => InvokeAsync(StateHasChanged));
 
         }
         else
@@ -226,7 +225,7 @@
             // Reset after a while to prevent sudden collapse
             Task.Delay(350)
                 .ContinueWith(t => ItemDefinitionArchiveDiffs[archive.Digest] = null)
-                .AndForget();
+                .ContinueWith(t => InvokeAsync(StateHasChanged));
         }
     }
 

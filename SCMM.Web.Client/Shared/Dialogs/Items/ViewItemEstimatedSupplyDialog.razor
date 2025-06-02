@@ -21,7 +21,7 @@
         else
         {
             <div class="d-flex flex-column">
-                <MudAlert Severity="Severity.Warning" Typo="MudBlazor.Typo.subtitle2" Color="MudBlazor.Color.Warning" Class="mb-4 mud-alert-outlined-warning">
+                <MudAlert Severity="Severity.Warning" Class="mb-4 mud-alert-outlined-warning">
                     <span><strong>Steam doesn't disclose exact sales figures, this is just an estimate</strong> to roughly guage item supply. How is this calculated? Steam users <MudLink Href="https://partner.steamgames.com/doc/features/workshop/implementation#item_subscription" Typo="MudBlazor.Typo.subtitle2" Color="MudBlazor.Color.Warning" Underline="Underline.Hover" Target="_blank">subscribe to workshop files</MudLink> when they purchase items from the store. Using this, we can determine the approximate number of unique users that purchased at least one copy of the item.</span>
                     <span>We also periodically scan Steam inventories to identify actual stock held. Because only a small fraction of all Steam accounts are scanned, these estimates should be taken with a grain of salt.</span>
                 </MudAlert>
@@ -79,13 +79,11 @@
 
     private IEnumerable<ItemHoldingUserDTO> ItemHolders;
 
-    protected override void OnConfigure(ResponsiveDialogOptions options)
+    protected override ResponsiveDialogOptions DialogOptions => new ResponsiveDialogOptions()
     {
-        options.FullscreenBreakpoint = MudBlazor.Breakpoint.Sm;
-        options.MaxWidth = MudBlazor.MaxWidth.Medium;
-        options.FullWidth = true;
-        options.CloseButton = true;
-    }
+        FullscreenBreakpoint = Breakpoint.Sm,
+        MaxWidth = MaxWidth.Medium
+    };
 
     protected override async Task OnInitializedAsync()
     {

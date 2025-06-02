@@ -141,14 +141,6 @@ namespace SCMM.Shared.Web.Server.Middleware
                 }
 
                 //
-                // PERMISSION/FEATURE POLICIES
-                //
-
-                context.Response.Headers.TryAdd("Permissions-Policy",
-                    "accelerometer=(),autoplay=(),camera=(),display-capture=(),encrypted-media=(),fullscreen=(),gamepad=(),geolocation=(),gyroscope=(),magnetometer=(),microphone=(),midi=(),payment=(),publickey-credentials-get=(),screen-wake-lock=(),sync-xhr=(self),usb=(),web-share=(),xr-spatial-tracking=()"
-                );
-
-                //
                 // CROSS-ORIGIN POLICIES
                 //
 

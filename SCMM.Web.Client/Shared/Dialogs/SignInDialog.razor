@@ -60,19 +60,18 @@
 </MudDialog>
 
 @code {
-    
-    protected override void OnConfigure(ResponsiveDialogOptions options)
+
+    protected override ResponsiveDialogOptions DialogOptions => new ResponsiveDialogOptions()
     {
-        options.FullscreenBreakpoint = MudBlazor.Breakpoint.Xs;
-        options.MaxWidth = MudBlazor.MaxWidth.Small;
-        options.CloseButton = true;
-    }
-    
-    private void SignIn() 
+        FullscreenBreakpoint = Breakpoint.Xs,
+        MaxWidth = MaxWidth.Small
+    };
+
+    protected override bool ShouldRender() => false;
+
+    private void SignIn()
     {
         Dialog.Close(MudBlazor.DialogResult.Ok(true));
     }
-    
-    protected override bool ShouldRender() => false;
 
 }

@@ -1,12 +1,12 @@
 ﻿@using MudBlazor.Services
 @inherits LayoutComponentBase
+@implements IBrowserViewportObserver
 @implements IAsyncDisposable
-@inject IBreakpointService BreakpointService
 @inject NavigationManager NavigationManager
 @inject AppState State
 
 <MudLayout>
-    <MudAppBar Fixed="true" Dense="true" DisableGutters="true" Elevation="4">
+    <MudAppBar Fixed="true" Dense="true" Gutters="false">
         <MudHidden Breakpoint="MudBlazor.Breakpoint.SmAndDown" Invert="true">
             <MudIconButton Edge="MudBlazor.Edge.Start" Icon="@Icons.Material.Filled.Menu" OnClick="@((e) => ToggleDrawer())" Class="ml-2" />
         </MudHidden>
@@ -20,16 +20,15 @@
         }
         <MudSpacer />
         <AppBarCurrencyControls class="d-flex mx-1" />
-        <AppBarRuntimeControls class="d-flex mx-1" />
         <MudHidden Breakpoint="MudBlazor.Breakpoint.Xs">
             <AppBarNotificationControls class="d-flex mx-1" />
         </MudHidden>
         <AppBarProfileControls />
     </MudAppBar>
-    <MudDrawer @bind-Open="DrawerIsOpen" @bind-Variant="DrawerVariant" OpenMiniOnHover="true" ClipMode="DrawerClipMode.Always" Breakpoint="Breakpoint.Md" Elevation="2">
+    <MudDrawer @bind-Open="DrawerIsOpen" Variant="@DrawerVariant" OpenMiniOnHover="true" ClipMode="DrawerClipMode.Always" Breakpoint="Breakpoint.Md">
         <AppNavigationMenu />
     </MudDrawer>
-    <MudMainContent Style="height:100vh; overflow-y:scroll; overflow-x:hidden;">
+    <MudMainContent>
         @if (State.SystemStatus?.Alerts != null)
         {
             foreach (var systemAlert in State.SystemStatus.Alerts)
@@ -50,32 +49,18 @@
 
 @code
 {
+    [Inject]
+    private IBrowserViewportService BrowserViewportService { get; set; }
+
+    private DrawerVariant DrawerVariant { get; set; } = DrawerVariant.Mini;
+
     private bool DrawerIsOpen { get; set; } = false;
-
-    private DrawerVariant DrawerVariant { get; set; } = DrawerVariant.Responsive;
-
-    private Guid _breakpointSubscriptionId;
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
         {
-            var subscriptionResult = await BreakpointService.SubscribeAsync(
-                (breakpoint) =>
-                {
-                    OnBreakpointChanged(breakpoint);
-                }, 
-                new ResizeOptions
-                {
-                    ReportRate = 250,
-                    NotifyOnBreakpointOnly = true,
-                }
-            );
-
-            _breakpointSubscriptionId = subscriptionResult.SubscriptionId;
-
-            OnBreakpointChanged(subscriptionResult.Breakpoint);
-            StateHasChanged();
+            await BrowserViewportService.SubscribeAsync(this, fireImmediately: true);
         }
 
         await base.OnAfterRenderAsync(firstRender);
@@ -83,16 +68,20 @@
 
     public async ValueTask DisposeAsync()
     {
-        if (_breakpointSubscriptionId != Guid.Empty)
-        {
-            await BreakpointService.UnsubscribeAsync(_breakpointSubscriptionId);
-            _breakpointSubscriptionId = Guid.Empty;
-        }
+        await BrowserViewportService.UnsubscribeAsync(this);
     }
 
-    protected virtual void OnBreakpointChanged(Breakpoint breakpoint)
+    Guid IBrowserViewportObserver.Id { get; } = Guid.NewGuid();
+
+    ResizeOptions IBrowserViewportObserver.ResizeOptions { get; } = new()
     {
-        if (BreakpointService.IsMediaSize(Breakpoint.MdAndUp, breakpoint))
+        ReportRate = 250,
+        NotifyOnBreakpointOnly = true
+    };
+
+    async Task IBrowserViewportObserver.NotifyBrowserViewportChangeAsync(BrowserViewportEventArgs browserViewportEventArgs)
+    {
+        if (await BrowserViewportService.IsBreakpointWithinReferenceSizeAsync(Breakpoint.MdAndUp, browserViewportEventArgs.Breakpoint))
         {
             DrawerVariant = DrawerVariant.Mini;
             DrawerIsOpen = false;
@@ -103,7 +92,7 @@
             DrawerIsOpen = false;
         }
 
-        InvokeAsync(StateHasChanged);
+        await InvokeAsync(StateHasChanged);
     }
 
     private void ToggleDrawer()

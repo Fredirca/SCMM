@@ -19,7 +19,6 @@ public class AppState : INotifyPropertyChanged
     public const string CurrencyNameKey = "currency";
     public const string AppIdKey = "app";
 
-    public const RuntimeType DefaultRuntime = RuntimeType.WebAssembly;
     public const string DefaultLanguage = Constants.SteamDefaultLanguage;
     public const string DefaultCurrency = Constants.SteamDefaultCurrency;
     public const ulong DefaultAppId = Constants.RustAppId;
@@ -31,24 +30,6 @@ public class AppState : INotifyPropertyChanged
     {
         _logger = logger;
         _cookieManager = cookieManager;
-    }
-
-    private RuntimeType? _runtime;
-    public RuntimeType Runtime
-    {
-        get
-        {
-            return _runtime ?? DefaultRuntime;
-        }
-        set
-        {
-            if (value != _runtime)
-            {
-                _runtime = value;
-                _cookieManager.Set(RuntimeTypeKey, value.ToString());
-                NotifyPropertyChanged();
-            }
-        }
     }
 
     private bool _isPrerendering;
@@ -277,9 +258,6 @@ public class AppState : INotifyPropertyChanged
     {
         try
         {
-            _runtime = await _cookieManager.GetAsync(RuntimeTypeKey, DefaultRuntime);
-            NotifyPropertyChanged(nameof(Runtime));
-
             _languageId = await _cookieManager.GetAsync(LanguageNameKey, DefaultLanguage);
             NotifyPropertyChanged(nameof(LanguageId));
 

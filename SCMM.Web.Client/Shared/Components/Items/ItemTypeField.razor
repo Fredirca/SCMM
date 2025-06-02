@@ -106,7 +106,7 @@
 
     private async Task ShowItemTypePickerDialog()
     {
-        var dialog = Dialogs.Show<ItemTypeSelectionDialog>(null, parameters: new DialogParameters()
+        var dialog = await Dialogs.ShowAsync<ItemTypeSelectionDialog>(null, parameters: new DialogParameters()
         {
             ["ItemTypesGroups"] = ItemTypesGroups
         });

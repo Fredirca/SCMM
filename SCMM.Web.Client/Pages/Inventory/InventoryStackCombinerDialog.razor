@@ -18,18 +18,18 @@
             <span>This action will stack <strong>all items</strong> in your inventory. Depending on the size of your inventory, this could take a few minutes to complete. Once started, the action cannot be stopped.</span>
         </MudAlert>
         <MudAlert Severity="Severity.Warning" Class="mud-alert-outlined-warning mb-6">
-            <span><strong>This action requires your <MudLink Href="https://steamcommunity.com/dev/apikey" Typo="MudBlazor.Typo.subtitle2" Color="MudBlazor.Color.Warning" Underline="Underline.Hover" Target="_blank">Steam API Key</MudLink> to modify your inventory items.</strong> Make sure you fully understand the implications of sharing your API Key with a 3rd party before proceeding. Read our <MudLink Href="/privacy" Typo="MudBlazor.Typo.subtitle2" Color="MudBlazor.Color.Warning" Underline="Underline.Hover" Target="_blank">Privacy Policy</MudLink> for more info.</span>
+            <span><strong>This action requires your <MudLink Href="https://steamcommunity.com/dev/apikey" Typo="MudBlazor.Typo.subtitle2" Color="MudBlazor.Color.Warning" Underline="Underline.Hover" Target="_blank">Steam API Key</MudLink> to modify inventory items.</strong> Make sure you fully understand the implications of sharing your API Key with a 3rd party before proceeding. Read our <MudLink Href="/privacy" Typo="MudBlazor.Typo.subtitle2" Color="MudBlazor.Color.Warning" Underline="Underline.Hover" Target="_blank">Privacy Policy</MudLink> for more info.</span>
         </MudAlert>
         <MudTextField T="string" @bind-Text="@SteamApiKey" DebounceInterval="500" Margin="MudBlazor.Margin.None" Variant="MudBlazor.Variant.Outlined" FullWidth="true" 
-                      Label="Steam API Key" Placeholder="Paste your Steam API key here..." HelperText="Click on the question mark icon to view and manage your Steam API Key"
+                      Label="Steam API Key" Placeholder="Paste your Steam API key here..." HelperText="Click on the question mark icon above to find your Steam API Key"
                       Adornment="Adornment.End" AdornmentIcon="fa fa-fw fa-question-circle" OnAdornmentClick="@(() => ExternalNavigationManager.NavigateToNewTabAsync("https://steamcommunity.com/dev/apikey"))" />
         <div class="mt-4">
-            <MudCheckBox T="bool" @bind-Checked="@StackUntradableAndUnmarketable" Color="Color.Primary" Label="Include untradeable and unmarketable items. If selected, this may cause trade/market restrictions to be applied to the resulting stack." Disabled="@IsCombining" />
+            <MudCheckBox T="bool" @bind-Value="@StackUntradableAndUnmarketable" Color="Color.Primary" Label="Stack untradeable and unmarketable items too. If selected, this may cause trade/market restrictions to be applied to the full item stack." Disabled="@IsCombining" />
         </div>
     </DialogContent>
     <DialogActions>
         <div class="d-flex gap-4 mx-4 my-2">
-            <MudButton OnClick="@(() => Dialog.Cancel())">Cancel</MudButton>
+            <MudButton OnClick="@(() => MudDialog.Cancel())">Cancel</MudButton>
             <MudButton OnClick="CombineItemStacks" Variant="MudBlazor.Variant.Filled" Color="MudBlazor.Color.Primary" StartIcon="@(IsCombining ? "fas fa-fw fa-cog fa-spin" : "fa fa-fw fa-check")"
                        Disabled="@(IsCombining || String.IsNullOrEmpty(SteamApiKey))">
                 @if(IsCombining)
@@ -47,6 +47,9 @@
 
 @code {
 
+    [CascadingParameter]
+    private IMudDialogInstance MudDialog { get; set; }
+
     [Parameter]
     public string SteamId { get; set; }
 
@@ -56,13 +59,11 @@
 
     private bool StackUntradableAndUnmarketable { get; set; } = false;
 
-    protected override void OnConfigure(ResponsiveDialogOptions options)
+    protected override ResponsiveDialogOptions DialogOptions => new ResponsiveDialogOptions()
     {
-        options.FullscreenBreakpoint = MudBlazor.Breakpoint.Sm;
-        options.MaxWidth = MudBlazor.MaxWidth.Small;
-        options.FullWidth = true; // force item images to scale equally
-        options.CloseButton = true;
-    }
+        FullscreenBreakpoint = Breakpoint.Sm,
+        MaxWidth = MaxWidth.Small
+    };
 
     private async Task CombineItemStacks()
     {
@@ -87,7 +88,7 @@
             }
 
             Snackbar.Add($"Inventory was successfully stacked.", MudBlazor.Severity.Success, x => x.RequireInteraction = false);
-            Dialog.Close(true);
+            MudDialog.Close(true);
         }
         catch (Exception ex)
         {

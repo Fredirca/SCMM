@@ -1,7 +1,6 @@
 ﻿@using SCMM.Web.Data.Models.UI.Store
-@inherits ResponsiveDialog
 
-<MudDialog DisableSidePadding="true" ClassContent="pa-0">
+<MudDialog Gutters="false" ContentClass="pa-0">
     <TitleContent>
         <MudText Typo="MudBlazor.Typo.h6">Store List</MudText>
     </TitleContent>
@@ -30,12 +29,5 @@
 
     [Parameter]
     public StoreIdentifierDTO[] List { get; set; }
-    
-    protected override void OnConfigure(ResponsiveDialogOptions options)
-    {
-        options.FullscreenBreakpoint = MudBlazor.Breakpoint.Xs;
-        options.MaxWidth = MudBlazor.MaxWidth.ExtraSmall;
-        options.NoHeader = true;
-    }
-    
+ 
 }

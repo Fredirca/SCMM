@@ -32,22 +32,21 @@
     [Parameter]
     public Color ConfirmColor { get; set; } = Color.Error;
 
-    protected override void OnConfigure(ResponsiveDialogOptions options)
+    protected override ResponsiveDialogOptions DialogOptions => new ResponsiveDialogOptions()
     {
-        options.MaxWidth = MudBlazor.MaxWidth.Small;
-        options.CloseButton = true;
-    }
-    
-    private void Cancel()
-    {
-        Dialog.Cancel();
-    }
+        MaxWidth = MaxWidth.Small
+    };
+
+    protected override bool ShouldRender() => false;
 
     private void Confirm() 
     {
         Dialog.Close(MudBlazor.DialogResult.Ok(true));
     }
-    
-    protected override bool ShouldRender() => false;
+
+    private void Cancel()
+    {
+        Dialog.Cancel();
+    }
 
 }

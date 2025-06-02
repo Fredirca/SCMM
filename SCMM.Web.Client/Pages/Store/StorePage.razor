@@ -28,37 +28,37 @@
 }
 else if (StoreList.Any() || Store != null)
 {
-    if (StoreList.Any())
-    {
-        <MudTabs Elevation="0" Position="MudBlazor.Position.Bottom" ActivePanelIndex="StoreIndex" ActivePanelIndexChanged="OnSelectedStoreChanged" KeepPanelsAlive="false" Class="mud-tabs-transparent mb-0">
-            <ChildContent>
-                @foreach (var store in StoreList)
-                {
-                    <MudTabPanel ID="@store.Id" Tag="@store" Text="@GetStoreTitle(store)" Disabled="State.IsPrerendering" />
-                }
-            </ChildContent>
-            <TabPanelHeader>
-                @if ((context.Tag as StoreIdentifierDTO).Start != null)
-                {
-                    if (!String.IsNullOrEmpty((context.Tag as StoreIdentifierDTO).Name))
-                    {
-                        <MudText Typo="MudBlazor.Typo.body2" Color="MudBlazor.Color.Secondary" Class="pl-2">@((context.Tag as StoreIdentifierDTO).Name)</MudText>
-                    }
-                }
-                else
-                {
-                    <MudText Typo="MudBlazor.Typo.body2" Color="MudBlazor.Color.Secondary" Class="pl-2"><i class="fas fa-thumbtack"></i></MudText>
-                }
-            </TabPanelHeader>
-            <Header>
-                <MudIconButton Size="MudBlazor.Size.Small" Icon="fa fa-fw fa-history" OnClick="@(() => ShowStoreListDialog(StoreList))" Class="pa-2 pr-4" />
-            </Header>
-        </MudTabs>
-    }
-    <PageContainer Title="@($"{State?.App?.Name} Store - {(Store?.Start?.ToString("d") ?? Store?.Name ?? "Store")}")" Class="ma-6"
+    <PageContainer Title="@($"{State?.App?.Name} Store - {(Store?.Start?.ToString("d") ?? Store?.Name ?? "Store")}")" Class="mt-0 mb-4 mx-4"
     Description="@(Store != null ? $"Store contains {Store.Items.Length} item(s) with a total cost of {State.Currency?.ToPriceString(Store.Items.Sum(x => x.StorePrice ?? 0))}." : null)"
-    ImageUrl="@Store?.ItemsThumbnailUrl">
-        <MudGrid Spacing="2">
+                   ImageUrl="@Store?.ItemsThumbnailUrl">
+        @if (StoreList.Any())
+        {
+            <MudTabs @ref="StoreTabs" ActivePanelIndex="StoreIndex" ActivePanelIndexChanged="OnSelectedStoreChanged" KeepPanelsAlive="false" Class="mud-tabs-transparent">
+                <ChildContent>
+                    @foreach (var store in StoreList)
+                    {
+                        <MudTabPanel ID="@store.Id" Tag="@store" Text="@GetStoreTitle(store)" Disabled="State.IsPrerendering" />
+                    }
+                </ChildContent>
+                <TabPanelHeader>
+                    @if ((context.Tag as StoreIdentifierDTO).Start != null)
+                    {
+                        if (!String.IsNullOrEmpty((context.Tag as StoreIdentifierDTO).Name))
+                        {
+                            <MudText Typo="MudBlazor.Typo.body2" Color="MudBlazor.Color.Secondary" Class="pl-2">@((context.Tag as StoreIdentifierDTO).Name)</MudText>
+                        }
+                    }
+                    else
+                    {
+                        <MudText Typo="MudBlazor.Typo.body2" Color="MudBlazor.Color.Secondary" Class="pl-2"><i class="fas fa-thumbtack"></i></MudText>
+                    }
+                </TabPanelHeader>
+                <Header>
+                    <MudIconButton Icon="fa fa-fw fa-history" OnClick="@(() => ShowStoreListDialog(StoreList))" title="View previous stores" />
+                </Header>
+            </MudTabs>
+        }
+        <MudGrid>
             @if (Store == null)
             {
                 <MudItem xs="12">
@@ -182,7 +182,7 @@ else if (StoreList.Any() || Store != null)
                                     </CardHeaderActions>
                                 </MudCardHeader>
                                 <MudCardContent Class="d-flex flex-grow-1">
-                                    <MudGrid Spacing="1" Class="flex-grow-1">
+                                    <MudGrid Class="flex-grow-1">
 
                                         <MudItem xs="12" xl="5" Class="d-flex flex-column flex-grow-1">
                                             <MudTooltip Text="View more item details" RootClass="d-flex flex-grow-1 align-center justify-center full-width full-height">
@@ -197,17 +197,17 @@ else if (StoreList.Any() || Store != null)
                                                     {
                                                         @if (item.MarketPrice > item.StorePrice)
                                                         {
-                                                            <MudChip Size="MudBlazor.Size.Small" Icon="fas fa-fw fa-arrow-up mr-1" Text="@item.MarketPrice.Value.ToMovementString(item.StorePrice.Value)" 
+                                                            <MudChip T="string" Size="MudBlazor.Size.Small" Icon="fas fa-fw fa-arrow-up mr-1" Text="@item.MarketPrice.Value.ToMovementString(item.StorePrice.Value)" 
                                                                      Color="MudBlazor.Color.Success" Variant="MudBlazor.Variant.Filled" Class="mt-0" />
                                                         }
                                                         else if (item.MarketPrice < item.StorePrice)
                                                         {
-                                                            <MudChip Size="MudBlazor.Size.Small" Icon="fas fa-fw fa-arrow-down mr-1" Text="@item.MarketPrice.Value.ToMovementString(item.StorePrice.Value)" 
+                                                            <MudChip T="string" Size="MudBlazor.Size.Small" Icon="fas fa-fw fa-arrow-down mr-1" Text="@item.MarketPrice.Value.ToMovementString(item.StorePrice.Value)" 
                                                                      Color="MudBlazor.Color.Error" Variant="MudBlazor.Variant.Filled" Class="mt-0" />
                                                         }
                                                         else
                                                         {
-                                                            <MudChip Size="MudBlazor.Size.Small" Text="@item.MarketPrice.Value.ToMovementString(item.StorePrice.Value)" 
+                                                            <MudChip T="string" Size="MudBlazor.Size.Small" Text="@item.MarketPrice.Value.ToMovementString(item.StorePrice.Value)" 
                                                                      Color="MudBlazor.Color.Secondary" Variant="MudBlazor.Variant.Filled" Class="mt-0" />
                                                         }
                                                     }
@@ -340,13 +340,13 @@ else if (StoreList.Any() || Store != null)
                                                 @if (item.IsBanned == true)
                                                 {
                                                     <MudTooltip Text="@($"This item has been trade and market banned due to {item.BanReason.FirstCharToLower()}")">
-                                                        <MudChip Size="MudBlazor.Size.Small" Text="Banned" Icon="fas fa-fw fa-ban mr-2" Variant="MudBlazor.Variant.Text" Color="MudBlazor.Color.Error" Class="mud-chip-outlined" />
+                                                        <MudChip T="string" Size="MudBlazor.Size.Small" Text="Banned" Icon="fas fa-fw fa-ban mr-2" Variant="MudBlazor.Variant.Text" Color="MudBlazor.Color.Error" Class="mud-chip-outlined" />
                                                     </MudTooltip>
                                                 }
                                                 <MudTooltip>
                                                     <ChildContent>
                                                         @* // TODO: Marketable after store rotation *@
-                                                        <MudChip Size="MudBlazor.Size.Small" Text="@(item.IsMarketable ? "Marketable" : ((item.IsStillAvailableFromStore && item.MarketableRestrictionDays > 0) ? "Marketable Next Rotation" : "Not Marketable"))" Class="mud-chip-outlined"
+                                                        <MudChip T="string" Size="MudBlazor.Size.Small" Text="@(item.IsMarketable ? "Marketable" : ((item.IsStillAvailableFromStore && item.MarketableRestrictionDays > 0) ? "Marketable Next Rotation" : "Not Marketable"))" Class="mud-chip-outlined"
                                                                  Icon="@(item.IsMarketable ? "fas fa-fw fa-balance-scale-left mr-3" : ((item.IsStillAvailableFromStore && item.MarketableRestrictionDays > 0) ? "fas fa-fw fa-balance-scale-left mr-3" : "fas fa-fw fa-times"))"
                                                                  IconColor="@(item.IsMarketable ? MudBlazor.Color.Default : ((item.IsStillAvailableFromStore && item.MarketableRestrictionDays > 0) ? MudBlazor.Color.Warning : MudBlazor.Color.Error))" 
                                                                  Color="@(item.IsMarketable ? MudBlazor.Color.Default : ((item.IsStillAvailableFromStore && item.MarketableRestrictionDays > 0) ? MudBlazor.Color.Warning : MudBlazor.Color.Error))"
@@ -380,7 +380,7 @@ else if (StoreList.Any() || Store != null)
                                                 </MudTooltip>
                                                 <MudTooltip>
                                                     <ChildContent>
-                                                        <MudChip Size="MudBlazor.Size.Small" Text="@(item.IsTradable ? "Tradable" : "Not Tradable")" Class="mud-chip-outlined"
+                                                        <MudChip T="string" Size="MudBlazor.Size.Small" Text="@(item.IsTradable ? "Tradable" : "Not Tradable")" Class="mud-chip-outlined"
                                                                  Icon="@(item.IsTradable ? "fas fa-fw fa-exchange-alt mr-2" : "fas fa-fw fa-times")"
                                                                  IconColor="@(item.IsTradable ? MudBlazor.Color.Default : MudBlazor.Color.Error)"
                                                                  Color="@(item.IsTradable ? MudBlazor.Color.Default : MudBlazor.Color.Error)"
@@ -407,14 +407,14 @@ else if (StoreList.Any() || Store != null)
                                                 @if (item.IsPermanent == true)
                                                 {
                                                     <MudTooltip Text="@($"This item will be permanently bound to your Steam account after purchase and it cannot be traded or sold")">
-                                                        <MudChip Size="MudBlazor.Size.Small" Text="Permanent" Icon="fas fa-fw fa-thumbtack mr-2" Variant="MudBlazor.Variant.Text" Color="MudBlazor.Color.Default" Class="mud-chip-outlined" />
+                                                        <MudChip T="string" Size="MudBlazor.Size.Small" Text="Permanent" Icon="fas fa-fw fa-thumbtack mr-2" Variant="MudBlazor.Variant.Text" Color="MudBlazor.Color.Default" Class="mud-chip-outlined" />
                                                     </MudTooltip>
                                                 }
                                                 @if (item.HasGlow == true)
                                                 {
                                                     <MudTooltip>
                                                         <ChildContent>
-                                                            <MudChip Size="MudBlazor.Size.Small" Text="@($"Glow {(item.GlowRatio > 0.01m ? "(" + item.GlowRatio + "%)" : String.Empty).Trim()}")" Icon="fas fa-fw fa-moon mr-3" 
+                                                            <MudChip T="string" Size="MudBlazor.Size.Small" Text="@($"Glow {(item.GlowRatio > 0.01m ? "(" + item.GlowRatio + "%)" : String.Empty).Trim()}")" Icon="fas fa-fw fa-moon mr-3" 
                                                                      Variant="MudBlazor.Variant.Text" Color="MudBlazor.Color.Default" Class="mud-chip-outlined" />
                                                         </ChildContent>
                                                         <TooltipContent>
@@ -432,7 +432,7 @@ else if (StoreList.Any() || Store != null)
                                                 @if (item.HasGlowSights == true)
                                                 {
                                                     <MudTooltip Text="The iron sights of this weapon glow in the dark, making it much easier to aim at night">
-                                                        <MudChip Size="MudBlazor.Size.Small" Text="Glow Sight" Icon="fas fa-fw fa-crosshairs mr-3" 
+                                                        <MudChip T="string" Size="MudBlazor.Size.Small" Text="Glow Sight" Icon="fas fa-fw fa-crosshairs mr-3" 
                                                                  Variant="MudBlazor.Variant.Text" Color="MudBlazor.Color.Default" Class="mud-chip-outlined" />
                                                     </MudTooltip>
                                                 }
@@ -440,7 +440,7 @@ else if (StoreList.Any() || Store != null)
                                                 {
                                                     <MudTooltip>
                                                         <ChildContent>
-                                                            <MudChip Size="MudBlazor.Size.Small" Text="@($"Cutout {(item.CutoutRatio > 0.01m ? "(" + item.CutoutRatio + "%)" : String.Empty).Trim()}")" Icon="fas fa-fw fa-cut mr-3" 
+                                                            <MudChip T="string" Size="MudBlazor.Size.Small" Text="@($"Cutout {(item.CutoutRatio > 0.01m ? "(" + item.CutoutRatio + "%)" : String.Empty).Trim()}")" Icon="fas fa-fw fa-cut mr-3" 
                                                                      Variant="MudBlazor.Variant.Text" Color="MudBlazor.Color.Default" Class="mud-chip-outlined" />
                                                         </ChildContent>
                                                         <TooltipContent>
@@ -458,35 +458,35 @@ else if (StoreList.Any() || Store != null)
                                                 @if (item.IsPublisherDrop == true)
                                                 {
                                                     <MudTooltip Text="This item is a limited-time publisher drop, generally done as part of special event (e.g. charity or promotion)">
-                                                        <MudChip Size="MudBlazor.Size.Small" Text="@($"{State.App?.PublisherName ?? "Publisher"} Drop")" Icon="fas fa-fw fa-crown mr-3" 
+                                                        <MudChip T="string" Size="MudBlazor.Size.Small" Text="@($"{State.App?.PublisherName ?? "Publisher"} Drop")" Icon="fas fa-fw fa-crown mr-3" 
                                                                  Variant="MudBlazor.Variant.Text" Color="MudBlazor.Color.Default" Class="mud-chip-outlined" />
                                                     </MudTooltip>
                                                 }
                                                 @if (item.IsLootCrateDrop == true)
                                                 {
                                                     <MudTooltip Text="There is a chance to obtain this item when opening a loot crate. The odds of obtaining this item from a loot crate are not known.">
-                                                        <MudChip Size="MudBlazor.Size.Small" Text="Loot Crate Drop" Icon="fas fa-fw fa-parachute-box mr-2"
+                                                        <MudChip T="string" Size="MudBlazor.Size.Small" Text="Loot Crate Drop" Icon="fas fa-fw fa-parachute-box mr-2"
                                                                     Variant="MudBlazor.Variant.Text" Color="MudBlazor.Color.Default" Class="mud-chip-outlined" />
                                                     </MudTooltip>
                                                 }
                                                 @if (item.HasReturnedToStoreBefore == true)
                                                 {
                                                     <MudTooltip Text="This item has returned from a previous store release">
-                                                        <MudChip Size="MudBlazor.Size.Small" Text="Returning Item" Icon="fas fa-fw fa-redo mr-3" 
+                                                        <MudChip T="string" Size="MudBlazor.Size.Small" Text="Returning Item" Icon="fas fa-fw fa-redo mr-3" 
                                                                  Variant="MudBlazor.Variant.Text" Color="MudBlazor.Color.Default" Class="mud-chip-outlined" />
                                                     </MudTooltip>
                                                 }
                                                 @if (item.IsCommodity == true)
                                                 {
                                                     <MudTooltip Text="This item is a commodity, where all the individual items are effectively identical.">
-                                                        <MudChip Size="MudBlazor.Size.Small" Text="Commodity" Icon="fas fa-fw fa-coins mr-2" 
+                                                        <MudChip T="string" Size="MudBlazor.Size.Small" Text="Commodity" Icon="fas fa-fw fa-coins mr-2" 
                                                                  Variant="MudBlazor.Variant.Text" Color="MudBlazor.Color.Default" Class="mud-chip-outlined" />
                                                     </MudTooltip>
                                                 }
                                                 else
                                                 {
                                                     <MudTooltip Text="The appearance of items in the individual listings may vary slightly from the one above. For example, items could have custom names, descriptions, or colors.">
-                                                        <MudChip Size="MudBlazor.Size.Small" Text="Unique" Icon="fas fa-fw fa-fingerprint mr-2" 
+                                                        <MudChip T="string" Size="MudBlazor.Size.Small" Text="Unique" Icon="fas fa-fw fa-fingerprint mr-2" 
                                                                  Variant="MudBlazor.Variant.Text" Color="MudBlazor.Color.Default" Class="mud-chip-outlined" />
                                                     </MudTooltip>
                                                 }
@@ -590,6 +590,8 @@ else
     [Parameter]
     public string StoreId { get; set; }
 
+    private MudTabs StoreTabs;
+
     private StoreIdentifierDTO[] StoreList;
 
     private int StoreIndex;
@@ -607,13 +609,13 @@ else
         StoreId = RestoreFromStateOrDefault(nameof(StoreId), StoreId);
         StoreList = await RestoreFromStateOrLoad(nameof(StoreList), async () =>
         {
-            await LoadStoreList();
+            await LoadStoreListTabs();
             return StoreList;
         });
         StoreIndex = RestoreFromStateOrDefault(nameof(StoreIndex), StoreIndex);
         Store = await RestoreFromStateOrLoad(nameof(Store), async () =>
         {
-            await LoadStore();
+            await LoadStoreTab(StoreId);
             return Store;
         });
     }
@@ -632,30 +634,28 @@ else
         // If there is no store selected yet, use the current one
         if (String.IsNullOrEmpty(StoreId))
         {
-            StoreId = "current";
+            StoreId = StoreList?.FirstOrDefault(x => x.Start != null)?.Id ?? "current";
         }
 
         // If the store id has changed, reload the store details
         if (!String.Equals(StoreId, Store?.Id?.ToString() ?? String.Empty, StringComparison.InvariantCultureIgnoreCase))
         {
-            await LoadStore();
+            await LoadStoreTab(StoreId);
         }
     }
 
     private void OnSelectedStoreChanged(int index)
     {
-        var oldStore = StoreList.ElementAtOrDefault(StoreIndex);
-        StoreIndex = index;
-
         // Navigate to the selected store page
-        var store = StoreList.ElementAtOrDefault(index);
-        if (store != null && store != oldStore)
+        var oldStore = StoreList.ElementAtOrDefault(StoreIndex);
+        var newStore = StoreList.ElementAtOrDefault(index);
+        if (newStore != null && newStore != oldStore)
         {
-            NavigationManager.NavigateTo($"/store/{store.Id}");  
+            NavigationManager.NavigateTo($"/store/{newStore.Id}");  
         }
     }
 
-    private async Task LoadStoreList()
+    private async Task LoadStoreListTabs()
     {
         try
         {
@@ -666,6 +666,7 @@ else
 
             // Load the store list
             StoreList = await Http.GetFromJsonWithDefaultsAsync<StoreIdentifierDTO[]>($"api/store");
+            SelectStoreTab(StoreId);
 
             StateHasChanged();
         }
@@ -678,7 +679,18 @@ else
         }
     }
 
-    private async Task LoadStore()
+    private void SelectStoreTab(string storeId)
+    {
+        // The selected store should show as the active tab in the store tab list
+        if (StoreList != null)
+        {
+            StoreIndex = Array.IndexOf(StoreList, StoreList.FirstOrDefault(x => x.Id == storeId));
+            StoreTabs?.ActivatePanel(StoreIndex);
+            StateHasChanged();
+        }
+    }
+
+    private async Task LoadStoreTab(string storeId)
     {
         try
         {
@@ -686,18 +698,15 @@ else
             StoreException = null;
             StateHasChanged();
 
-            if (!String.IsNullOrEmpty(StoreId))
+            if (!String.IsNullOrEmpty(storeId))
             {
+                SelectStoreTab(storeId);
+
                 // Load the new store (if any)
-                Store = await Http.GetFromJsonWithDefaultsAsync<StoreDetailsDTO>($"api/store/{Uri.EscapeDataString(StoreId)}");
+                Store = await Http.GetFromJsonWithDefaultsAsync<StoreDetailsDTO>($"api/store/{Uri.EscapeDataString(storeId)}");
                 StoreId = Store.Id;
 
-                // The selected store should show as the active tab in the store tab list
-                if (StoreList != null)
-                {
-                    StoreIndex = Array.IndexOf(StoreList, StoreList.FirstOrDefault(x => x.Id == StoreId));
-                }
-
+                SelectStoreTab(storeId);
                 StateHasChanged();
             }
         }
@@ -715,7 +724,7 @@ else
         catch (Exception ex)
         {
             StoreException = ex;
-            Logger.LogError(ex, $"Error loading store {StoreId}");
+            Logger.LogError(ex, $"Error loading store");
             Snackbar.Add($"Unable to load store details. {ex.Message}", MudBlazor.Severity.Error);
             StateHasChanged();
         }
@@ -728,7 +737,7 @@ else
             return;
         }
 
-        var dialog = Dialogs.Show<BuyStoreItemDialog>(null, parameters: new DialogParameters()
+        var dialog = await Dialogs.ShowAsync<BuyStoreItemDialog>(null, parameters: new DialogParameters()
         {
             ["Item"] = item,
         });
@@ -781,7 +790,7 @@ else
 
     private void ShowCreatorItemsDialog(StoreItemDetailsDTO item)
     {
-        Dialogs.Show<ViewItemListDialog>(null, parameters: new DialogParameters()
+        _ = Dialogs.ShowAsync<ViewItemListDialog>(null, parameters: new DialogParameters()
         {
             ["ListName"] = $"Items by {item.CreatorName}",
             ["ListUrl"] = $"api/item?creatorId={item.CreatorId}&count=-1",
@@ -793,7 +802,7 @@ else
 
     private void ShowItemDetailsDialog(StoreItemDetailsDTO item)
     {
-        Dialogs.Show<ViewItemDetailsDialog>(null, parameters: new DialogParameters()
+        _ = Dialogs.ShowAsync<ViewItemDetailsDialog>(null, parameters: new DialogParameters()
         {
             ["ItemName"] = item.Name,
             ["ItemUrl"] = $"/api/item/{item.AssetDescriptionId}"
@@ -806,7 +815,7 @@ else
             $"https://rusthelp.com/tools/skins/{item.WorkshopFileId}"
         );
         /*
-        Dialogs.Show<ViewItemModelDialog>(null, parameters: new DialogParameters()
+        _ = Dialogs.ShowAsync<ViewItemModelDialog>(null, parameters: new DialogParameters()
         {
             ["ItemName"] = item.Name,
             ["ItemType"] = item.ItemType,
@@ -819,7 +828,7 @@ else
 
     private void ShowStoreListDialog(StoreIdentifierDTO[] stores)
     {
-        Dialogs.Show<ViewStoreListDialog>(null, parameters: new DialogParameters()
+        _ = Dialogs.ShowAsync<ViewStoreListDialog>(null, parameters: new DialogParameters()
         {
             ["List"] = stores
         });
@@ -827,7 +836,7 @@ else
     
     private void ShowItemEstimatedSupplyDialog(StoreItemDetailsDTO item)
     {
-        Dialogs.Show<ViewItemEstimatedSupplyDialog>(null, parameters: new DialogParameters()
+        _ = Dialogs.ShowAsync<ViewItemEstimatedSupplyDialog>(null, parameters: new DialogParameters()
         {
             ["ItemName"] = item.Name,
             ["ItemUrl"] = $"/api/item/{item.AssetDescriptionId}"
@@ -836,7 +845,7 @@ else
 
     private void ShowItemTypeDialog(StoreItemDetailsDTO item)
     {
-        Dialogs.Show<ViewItemListDialog>(null, parameters: new DialogParameters()
+        _ = Dialogs.ShowAsync<ViewItemListDialog>(null, parameters: new DialogParameters()
         {
             ["ListName"] = $"All {item.ItemType.Pluralise()}",
             ["ListUrl"] = $"api/item?id={item.AssetDescriptionId}&type={item.ItemType}&count=-1",
@@ -849,7 +858,7 @@ else
 
     private void ShowItemCollectionDialog(StoreItemDetailsDTO item)
     {
-        Dialogs.Show<ViewItemCollectionDialog>(null, parameters: new DialogParameters()
+        _ = Dialogs.ShowAsync<ViewItemCollectionDialog>(null, parameters: new DialogParameters()
         {
             ["CollectionName"] = $"{item.ItemCollection} Collection",
             ["CollectionUrl"] = $"api/item/collection/{item.ItemCollection}?creatorId={item.CreatorId}"
@@ -920,7 +929,7 @@ else
         return title.ToString().Trim();
     }
 
-    private async Task<IEnumerable<ItemDescriptionWithPriceDTO>> SearchItem(string value)
+    private async Task<IEnumerable<ItemDescriptionWithPriceDTO>> SearchItem(string value, CancellationToken cancellationToken)
     {
         try
         {

@@ -1,5 +1,4 @@
 ﻿@using SCMM.Web.Data.Models.UI.Store
-@inherits ResponsiveDialog
 @inject AppState State
 
 <MudDialog>
@@ -16,8 +15,8 @@
     </DialogContent>
     <DialogActions>
         <div class="d-flex gap-4 mx-4 my-2">
-            <MudButton OnClick="@(() => Dialog.Cancel())">Cancel</MudButton>
-            <MudButton OnClick="@(() => this.Dialog.Close(Quantity))" Variant="MudBlazor.Variant.Filled" Color="MudBlazor.Color.Primary" StartIcon="fas fa-fw fa-shopping-cart"
+            <MudButton OnClick="@(() => MudDialog.Cancel())">Cancel</MudButton>
+            <MudButton OnClick="@(() => this.MudDialog.Close(Quantity))" Variant="MudBlazor.Variant.Filled" Color="MudBlazor.Color.Primary" StartIcon="fas fa-fw fa-shopping-cart"
                        Disabled="Quantity == null || Quantity < 1">
                 <span>Checkout</span>
             </MudButton>
@@ -27,17 +26,12 @@
 
 @code {
 
+    [CascadingParameter]
+    private IMudDialogInstance MudDialog { get; set; }
+
     [Parameter]
     public StoreItemDetailsDTO Item { get; set; }
 
     private int? Quantity { get; set; } = 1;
-
-    protected override void OnConfigure(ResponsiveDialogOptions options)
-    {
-        options.FullscreenBreakpoint = MudBlazor.Breakpoint.Sm;
-        options.MaxWidth = MudBlazor.MaxWidth.Small;
-        options.FullWidth = true;
-        options.CloseButton = true;
-    }
 
 }

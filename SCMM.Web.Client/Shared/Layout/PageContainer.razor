@@ -7,14 +7,14 @@
     <meta name="image" property="og:image" content="@ImageUrl">
 </HeadContent>
 
-<div class="ma-6" @attributes="AdditionalAttributes">
+<div class="@(Class ?? "ma-4")" @attributes="AdditionalAttributes">
     @ChildContent
 </div>
 
 @if (ScrollTopTop)
 {
     <MudScrollToTop Selector=".mud-main-content">
-        <MudIconButton Variant="Variant.Filled" Icon="fas fa-fw fa-arrow-up" Color="MudBlazor.Color.Secondary" Title="Scroll to top" Disabled="State.IsPrerendering"></MudIconButton>
+        <MudIconButton Variant="Variant.Filled" Icon="fas fa-fw fa-arrow-up" Color="MudBlazor.Color.Secondary" title="Scroll to top" Disabled="State.IsPrerendering"></MudIconButton>
     </MudScrollToTop>
 }
 
@@ -28,6 +28,9 @@
 
     [Parameter]
     public string ImageUrl { get; set; }
+
+    [Parameter]
+    public string Class { get; set; } = null;
 
     [Parameter]
     public RenderFragment ChildContent { get; set; }

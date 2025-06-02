@@ -15,7 +15,7 @@
 <PageContainer Title="@(Profile != null ? $"{State?.App?.Name} Inventory - {Profile.Name}" : "Inventory")"
                Description="@(InventoryTotals != null ? $"Inventory contains {InventoryTotals.Items.ToQuantityString()} item(s) with a total market value of {State.Currency?.ToPriceString(InventoryTotals.MarketValue)}." : null)"
                ImageUrl="@Profile?.AvatarUrl">
-    <MudGrid Spacing="2">
+    <MudGrid>
         @if (LoadingError == null)
         {
             <InventoryHeaderPanel Profile="@Profile" InventoryTotal="@InventoryTotals" />
@@ -242,7 +242,7 @@
     
     private void ShowInventoryStackCombinerDialog()
     {
-        Dialogs.Show<InventoryStackCombinerDialog>(null, parameters: new DialogParameters()
+        _ = Dialogs.ShowAsync<InventoryStackCombinerDialog>(null, parameters: new DialogParameters()
         {
             ["SteamId"] = SteamId
         });
@@ -281,7 +281,7 @@
         }
         catch (Exception ex)
         {
-            Logger.LogError(ex, $"Error loading profile inventory '{Uri.EscapeDataString(SteamId)}'");
+            Logger.LogError(ex, $"Error loading profile inventory");
             LoadingMessage = null;
             LoadingError = ex.Message;
             LoadingErrorStatusCode = (ex as HttpRequestException)?.StatusCode;
@@ -304,7 +304,7 @@
         }
         catch (Exception ex)
         {
-            Logger.LogError(ex, $"Error fetching inventory profile for '{Uri.EscapeDataString(SteamId)}'");
+            Logger.LogError(ex, $"Error fetching inventory profile");
             Profile = null;
             throw;
         }
@@ -337,7 +337,7 @@
             }
             else
             {
-                Logger.LogError(ex, $"Error synchronising inventory items for '{Uri.EscapeDataString(SteamId)}'");
+                Logger.LogError(ex, $"Error synchronising inventory items");
                 throw;
             }
         }
@@ -354,7 +354,7 @@
         }
         catch (Exception ex)
         {
-            Logger.LogError(ex, $"Error fetching inventory totals for '{Uri.EscapeDataString(SteamId)}'");
+            Logger.LogError(ex, $"Error fetching inventory totals");
             InventoryTotals = null;
             throw;
         }
@@ -385,7 +385,7 @@
                 if (thisIsMyInventory)
                 {
                     options.Action = "Change Privacy Settings";
-                    options.Onclick = (x) =>
+                    options.OnClick = (x) =>
                     {
                         return ExternalNavigationManager.NavigateToNewTabAsync(
                             $"https://steamcommunity.com/profiles/{Profile?.SteamId}/edit/settings"

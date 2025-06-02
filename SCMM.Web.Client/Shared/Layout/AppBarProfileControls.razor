@@ -94,12 +94,12 @@
 </div>
 
 @code {
-    
+
     [Parameter(CaptureUnmatchedValues = true)]
     public Dictionary<string, object> AdditionalAttributes { get; set; }
-    
+
     private ProfileInventoryTotalsDTO InventoryTotals;
-    
+
     protected override async Task OnLoadStateAsync()
     {
         InventoryTotals = await RestoreFromStateOrLoad(nameof(InventoryTotals), async () =>
@@ -128,8 +128,8 @@
 
     private async Task ShowSignInDialog()
     {
-        var result = await Dialogs.Show<SignInDialog>().Result;
-        if (!result.Canceled && (bool) result.Data == true)
+        var dialogResult = await (await Dialogs.ShowAsync<SignInDialog>()).Result;
+        if (!dialogResult.Canceled && (bool)dialogResult.Data == true)
         {
             NavigateToSignIn();
         }

@@ -2,18 +2,7 @@
 
 namespace SCMM.Web.Client.Shared.Dialogs;
 
-public class ResponsiveDialogOptions : DialogOptions
+public record ResponsiveDialogOptions : DialogOptions
 {
-    public ResponsiveDialogOptions(DialogOptions options)
-    {
-        Position = options.Position;
-        MaxWidth = options.MaxWidth;
-        DisableBackdropClick = options.DisableBackdropClick;
-        NoHeader = options.NoHeader;
-        CloseButton = options.CloseButton;
-        FullScreen = options.FullScreen;
-        FullWidth = options.FullWidth;
-    }
-
-    public Breakpoint FullscreenBreakpoint { get; set; } = Breakpoint.Sm;
+    public Breakpoint FullscreenBreakpoint { get; init; } = Breakpoint.Sm;
 }

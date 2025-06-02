@@ -3,7 +3,7 @@
 
 <div class="pa-6">
     <MudContainer MaxWidth="MaxWidth.Large" Class="px-0">
-        <MudGrid Spacing="2">
+        <MudGrid>
             <MudItem sm="12" md="6" Class="d-flex flex-column pr-4">
                 <div class="d-flex flex-row align-center">
                     <img src="/images/icon-512.png" class="pa-2 mr-2" style="max-width:4rem" />
@@ -11,7 +11,7 @@
                 </div>
                 <MudText Typo="MudBlazor.Typo.caption" Color="MudBlazor.Color.Secondary">
                     <span>&copy; 2020-2024, SCMM - All rights reserved.</span><br />
-                    <span><MudLink Href="/about" Typo="MudBlazor.Typo.caption" Disabled="State.IsPrerendering">SCMM is a fanmade project</MudLink> and not affiliated with Valve Corporation or @(State.App?.PublisherName ?? "the games publisher").</span><br/>
+                    <span><MudLink Href="/about" Typo="MudBlazor.Typo.caption" Disabled="State.IsPrerendering">SCMM is a fan made project</MudLink> and not affiliated with Valve Corporation or @(State.App?.PublisherName ?? "the games publisher").</span><br/>
                 </MudText>
                 <div class="d-flex justify-start align-center gap-4 my-4">
                     <MudTooltip Text="Email us" Inline="false">
@@ -38,20 +38,20 @@
             </MudItem>
             <MudItem sm="6" md="3">
                 <MudText Typo="MudBlazor.Typo.h6" Color="MudBlazor.Color.Secondary">Information</MudText>
-                <MudList Clickable="true" Dense="true">
+                <MudList T="string" ReadOnly="true" Dense="true">
                     <MudListItem Icon="fas fa-fw fa-info-circle" Text="About SCMM" Href="/about" Disabled="State.IsPrerendering" />
                     <MudListItem Icon="fas fa-fw fa-user-secret" Text="Privacy Policy" Href="/privacy" Disabled="State.IsPrerendering" />
                     <MudListItem Icon="fas fa-fw fa-handshake" Text="Terms of Service" Href="/tos" Disabled="State.IsPrerendering" />
-                    <MudListItem Icon="fas fa-fw fa-fw fa-donate" Text="Ways you can say thank you" OnClick="ShowDonationDialog" Disabled="State.IsPrerendering" />
+                    <MudListItem Icon="fas fa-fw fa-fw fa-donate" Text="Ways you can say thank you" OnClick="@(async () => await ShowDonateDialogAsync())" Class="clickable" Disabled="State.IsPrerendering" />
                 </MudList>
             </MudItem>
             <MudItem sm="6" md="3">
                 <MudText Typo="MudBlazor.Typo.h6" Color="MudBlazor.Color.Secondary">Help</MudText>
-                <MudList Clickable="true" Dense="true">
+                <MudList T="string" ReadOnly="true" Dense="true">
                     <MudListItem Icon="fas fa-fw fa-question-circle" Text="View Help & Support" Href="/help" Disabled="State.IsPrerendering" />
                 </MudList>
                 <MudText Typo="MudBlazor.Typo.h6" Color="MudBlazor.Color.Secondary">Technical</MudText>
-                <MudList Clickable="true" Dense="true">
+                <MudList T="string" ReadOnly="true" Dense="true">
                     <MudListItem Icon="fas fa-fw fa-book" Text="View API Documentation" Href="/docs" ForceLoad="true" Disabled="State.IsPrerendering" />
                 </MudList>
             </MudItem>
@@ -61,9 +61,9 @@
 
 @code {
 
-    private void ShowDonationDialog()
+    public Task ShowDonateDialogAsync()
     {
-        Dialogs.Show<DonateDialog>();
+        return Dialogs.ShowAsync<DonateDialog>();
     }
 
 }
