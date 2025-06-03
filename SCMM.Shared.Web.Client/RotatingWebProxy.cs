@@ -155,10 +155,10 @@ public class RotatingWebProxy : IWebProxyManager, IWebProxy, ICredentials, ICred
         var now = DateTime.UtcNow;
         var availableProxies = _proxies
             .Where(x => x.IsAvailable)
-            .Where(x => x.GetHostCooldown(destination) <= now);
-        var proxy = availableProxies
+            .Where(x => x.GetHostCooldown(destination) <= now)
             .OrderBy(x => x.LastAccessedOn)
-            .FirstOrDefault();
+            .ToArray();
+        var proxy = availableProxies.FirstOrDefault();
 
         // If a proxy is available, associate it with our thread
         if (proxy != null)
