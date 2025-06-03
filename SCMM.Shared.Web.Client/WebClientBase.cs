@@ -199,7 +199,7 @@ public abstract class WebClientBase : IDisposable
     /// <summary>
     /// When web proxies are being used, how long should the proxy be put in cool down for if it gets rate limited.
     /// </summary>
-    public TimeSpan? RateLimitCooldown { get; init; } = TimeSpan.FromMinutes(15);
+    public TimeSpan? RateLimitCooldown { get; init; } = TimeSpan.FromMinutes(30);
 
     /// <summary>
     /// If set, the server may respond with a 304 response if the resource has not been modified within the specified time frame.
