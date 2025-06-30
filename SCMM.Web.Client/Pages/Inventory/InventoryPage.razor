@@ -283,7 +283,7 @@
         {
             Logger.LogError(ex, $"Error loading profile inventory");
             LoadingMessage = null;
-            LoadingError = ex.Message;
+            LoadingError = JsonSerializer.Deserialize<JsonElement>(ex.Message).GetProperty("message").GetString();
             LoadingErrorStatusCode = (ex as HttpRequestException)?.StatusCode;
             throw;
         }

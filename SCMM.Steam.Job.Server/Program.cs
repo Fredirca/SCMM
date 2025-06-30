@@ -244,7 +244,8 @@ public static class WebApplicationExtensions
         }
         else
         {
-            app.UseProductionExceptionHandler();
+            app.UseDevelopmentExceptionHandler(); 
+            //app.UseProductionExceptionHandler();
             // Force HTTPS using HSTS
             app.UseHsts();
         }
