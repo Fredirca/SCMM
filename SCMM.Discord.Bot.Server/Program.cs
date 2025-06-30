@@ -279,7 +279,7 @@ public static class WebApplicationExtensions
 
     public static WebApplication Warmup(this WebApplication app)
     {
-        app.EnsureDatabaseIsInitialised<DiscordDbContext>();
+        _ = app.EnsureDatabaseIsInitialisedAsync<DiscordDbContext>();
 
         // Prime caches
         using (var scope = app.Services.CreateScope())

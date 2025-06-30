@@ -25,8 +25,7 @@ namespace SCMM.Discord.Data.Store
                 .ToContainer(nameof(DiscordGuild))
                 .HasNoDiscriminator();
             builder.Entity<DiscordGuild>()
-                .HasIndex(x => x.Id)
-                .IsUnique(true);
+                .HasKey(x => x.Id);
             builder.Entity<DiscordGuild>()
                 .OwnsMany(x => x.Configuration, guildConfigurationBuilder => {
                     guildConfigurationBuilder.OwnsOne(y => y.List);
@@ -36,11 +35,9 @@ namespace SCMM.Discord.Data.Store
                 .ToContainer(nameof(DiscordUser))
                 .HasNoDiscriminator();
             builder.Entity<DiscordUser>()
-                .HasIndex(x => x.Id)
-                .IsUnique(true);
+                .HasKey(x => x.Id);
             builder.Entity<DiscordUser>()
-                .HasIndex(x => new { x.Username, x.Discriminator })
-                .IsUnique(true);
+                .HasKey(x => new { x.Username, x.Discriminator });
         }
     }
 }
